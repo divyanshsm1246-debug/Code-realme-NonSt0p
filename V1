@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code-Realme-NonStoP - Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron for Sci-Fi Gaming feel, Inter for text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for premium icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0214; /* Deep space purple black */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(234, 179, 8, 0.08) 0%, transparent 50%);
+            overflow-x: hidden;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Ambient glowing effects */
+        .neon-glow-purple {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);
+        }
+
+        .neon-glow-gold {
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
+        }
+
+        /* Admin visual override */
+        .admin-glow {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5), inset 0 0 15px rgba(239, 68, 68, 0.2) !important;
+            background: rgba(30, 0, 10, 0.8) !important;
+        }
+
+        .admin-text-pulse {
+            animation: red-gold-pulse 1.5s infinite alternate;
+        }
+
+        @keyframes red-gold-pulse {
+            0% { text-shadow: 0 0 5px #ef4444; color: #f87171; }
+            100% { text-shadow: 0 0 15px #eab308; color: #facc15; }
+        }
+
+        /* Gold and Purple border transitions */
+        .btn-card {
+            background: rgba(20, 10, 35, 0.6);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(234, 179, 8, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-card:hover {
+            border-color: #eab308;
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4), 0 0 15px rgba(234, 179, 8, 0.3);
+            background: rgba(30, 15, 50, 0.8);
+        }
+
+        /* Live Peak Specific Button Styling */
+        .live-btn {
+            background: linear-gradient(135deg, rgba(30, 10, 50, 0.7) 0%, rgba(15, 5, 25, 0.8) 100%);
+            border: 2px solid #eab308;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.25);
+            animation: pulse-border 2s infinite alternate;
+        }
+
+        .live-btn:hover {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.5), 0 0 15px rgba(234, 179, 8, 0.5);
+            border-color: #ef4444;
+        }
+
+        @keyframes pulse-border {
+            0% {
+                box-shadow: 0 0 12px rgba(234, 179, 8, 0.3);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(234, 179, 8, 0.6);
+            }
+        }
+
+        /* Scanning line overlay effect for cosmic game theme */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        /* Smooth page particle system */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: #eab308;
+            animation: float-up 8s infinite linear;
+            pointer-events: none;
+            opacity: 0.25;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(105vh) translateX(0) scale(1);
+            }
+            100% {
+                transform: translateY(-5vh) translateX(50px) scale(0.2);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 relative flex flex-col justify-between">
+
+    <!-- Vintage Cyber/Cosmic scanlines -->
+    <div class="scanlines"></div>
+
+    <!-- Background Floating Particles -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="particle w-1.5 h-1.5" style="left: 10%; animation-delay: 0s; animation-duration: 12s;"></div>
+        <div class="particle w-1 h-1" style="left: 25%; animation-delay: 2s; animation-duration: 15s;"></div>
+        <div class="particle w-2 h-2" style="left: 45%; animation-delay: 4s; animation-duration: 18s;"></div>
+        <div class="particle w-1.5 h-1.5" style="left: 70%; animation-delay: 1s; animation-duration: 14s;"></div>
+        <div class="particle w-2.5 h-2.5" style="left: 85%; animation-delay: 5s; animation-duration: 20s;"></div>
+    </div>
+
+    <!-- Status Toast Notifications -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+    <!-- Header brand section -->
+    <header class="w-full text-center py-6 z-10 px-4">
+        <div class="inline-block cursor-pointer" onclick="goHome()">
+            <h1 class="font-orbitron text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-yellow-400 to-purple-500 hover:scale-105 transition-transform duration-300">
+                CODE-REALME-NONSTOP
+            </h1>
+            <div class="h-1 w-full bg-gradient-to-r from-transparent via-yellow-500 to-transparent mt-3 rounded-full shadow-lg"></div>
+            <p class="text-xs md:text-sm font-orbitron tracking-widest text-purple-300 mt-2 uppercase opacity-80">
+                The Zenith of Infinite Dev-Realms
+            </p>
+        </div>
+    </header>
+
+    <!-- GATEWAY MODAL/VIEW (Profile Creation & Login) -->
+    <section id="auth-gate" class="flex-grow flex items-center justify-center px-4 py-8 z-10">
+        <div class="w-full max-w-3xl bg-purple-950/40 backdrop-blur-md rounded-2xl border-2 border-yellow-500/30 shadow-2xl p-6 md:p-8 neon-glow-purple">
+            
+            <!-- Dynamic Authentication Switch Tabs -->
+            <div class="flex border-b border-purple-800/60 mb-8 font-orbitron text-sm md:text-base">
+                <button id="tab-register" class="flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all" onclick="switchAuthTab('register')">
+                    <i class="fa-solid fa-user-plus mr-2"></i>CREATE CODESIGNER PROFILE
+                </button>
+                <button id="tab-login" class="flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all" onclick="switchAuthTab('login')">
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>ACCESS ID DECK
+                </button>
+            </div>
+
+            <!-- REGISTER FORM CONTAINER -->
+            <div id="register-section" class="space-y-6">
+                <div class="text-center md:text-left mb-4">
+                    <h2 class="text-xl font-orbitron font-bold text-yellow-400">INITIALIZE NEW CODESIGN</h2>
+                    <p class="text-xs text-purple-300/80 mt-1">Acquire unique access credentials inside the non-stop quantum storage ledger.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Left Inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODESIGN NAME *</label>
+                            <input type="text" id="reg-username" oninput="handleNameInput(this.value)" placeholder="e.g. NeoPrime" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-mono placeholder-purple-400/30 uppercase tracking-widest">
+                            <span class="text-[10px] text-purple-400/60 mt-1 block">Your unique identification name. Alphabet code generated instantly.</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">SECURITY ACCESS PASSWORD *</label>
+                            <input type="password" id="reg-password" placeholder="••••••••" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODING LANGUAGES *</label>
+                            <input type="text" id="reg-languages" placeholder="e.g. Rust, Python (Tip: include -Admin-access for override)" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all placeholder-purple-400/30 font-mono">
+                            <span class="text-[10px] text-purple-400/60 mt-1 block">The programming tech stack you wield. Enter secret trigger here.</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">BIO / MOTTO</label>
+                            <textarea id="reg-bio" rows="2" placeholder="e.g. Living in the cyber matrix, building decentralized realities." class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all text-sm placeholder-purple-400/30"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Right Logo Picker & Dynamic Custom Preview -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-1 text-center md:text-left">CUSTOM LOGO (EMOJI OR PUBLIC IMAGE URL)</label>
+                            <input type="text" id="reg-custom-logo" oninput="handleCustomLogo(this.value)" placeholder="⚡, 💻, or https://example.com/logo.png" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all placeholder-purple-400/30">
+                        </div>
+
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-1 text-center md:text-left">OR SELECT HOLO-AVATAR PRESET</label>
+                        <div class="grid grid-cols-3 gap-3" id="avatar-grid">
+                            <!-- Dynamically filled with ultra-cool avatars -->
+                        </div>
+
+                        <!-- Interactive live preview card -->
+                        <div class="bg-purple-950/60 border border-yellow-500/30 rounded-xl p-3 flex items-center gap-3">
+                            <div id="live-logo-preview-container" class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center text-xl font-bold font-orbitron text-purple-950 shadow-md">
+                                <span id="live-logo-text">?</span>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-orbitron text-yellow-400 tracking-wider">REALTIME PROFILE PREVIEW</span>
+                                <div id="live-preview-name" class="font-bold text-sm text-white font-mono uppercase tracking-widest">Awaiting Name...</div>
+                                <div id="live-preview-logo-type" class="text-[9.5px] text-purple-300">Preset: Alphabet Initial</div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="selected-avatar" value="">
+                        <input type="hidden" id="selected-avatar-color" value="from-yellow-500 to-amber-600">
+                    </div>
+                </div>
+
+                <!-- Registration Actions -->
+                <div class="pt-4 border-t border-purple-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="text-xs text-yellow-400/60 font-mono"><i class="fa-solid fa-server mr-1.5"></i>PERSISTENT PERSISTENCE: ONLINE</span>
+                    <button onclick="registerProfile()" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-purple-950 font-orbitron font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-500/20 active:scale-95 transition-all tracking-wider text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rocket animate-pulse"></i> SPARK COGNITION
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGIN FORM CONTAINER -->
+            <div id="login-section" class="space-y-6 hidden">
+                <div class="text-center md:text-left mb-4">
+                    <h2 class="text-xl font-orbitron font-bold text-yellow-400">RESTORE SYSTEM ACCESS</h2>
+                    <p class="text-xs text-purple-300/80 mt-1">Re-authenticate code sign key to load down personal user credentials.</p>
+                </div>
+
+                <div class="max-w-md mx-auto space-y-4 py-4">
+                    <div>
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODESIGN NAME</label>
+                        <input type="text" id="login-username" placeholder="ENTER YOUR UNIQUE CODESIGN" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white text-center focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-mono placeholder-purple-400/30 uppercase tracking-widest text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">SECURITY PASSWORD</label>
+                        <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white text-center focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-mono text-lg">
+                    </div>
+                </div>
+
+                <!-- Login Actions -->
+                <div class="pt-4 border-t border-purple-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="text-xs text-purple-400/50 font-mono"><i class="fa-solid fa-network-wired mr-1.5"></i>Secure Session Syncing</span>
+                    <button onclick="loginProfile()" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-orbitron font-bold rounded-lg hover:shadow-lg hover:shadow-purple-500/30 active:scale-95 transition-all tracking-wider text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-unlock-keyhole"></i> ENGAGE DECK
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MAIN CENTRAL DASHBOARD (Hidden until authorization complete) -->
+    <main id="main-dashboard" class="hidden flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6 z-10 w-full">
+        
+        <!-- Welcome banner/active pilot tag -->
+        <div id="dashboard-banner" class="max-w-6xl w-full mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 bg-purple-950/25 border border-purple-800/30 rounded-xl p-4 backdrop-blur-md transition-all duration-500">
+            <div class="flex items-center gap-4">
+                <!-- User logo icon display -->
+                <div id="active-user-avatar-container" class="w-14 h-14 rounded-full bg-gradient-to-br flex items-center justify-center border border-yellow-400/40 shadow-lg shadow-purple-500/15 text-2xl overflow-hidden">
+                    <span id="active-user-avatar-icon">👻</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="active-system-badge" class="text-[10px] font-orbitron text-yellow-400 tracking-widest uppercase">CODESIGNER CONNECTED</span>
+                        <span id="admin-indicator-badge" class="hidden text-[9px] font-mono font-bold bg-red-600 text-white px-2 py-0.5 rounded animate-pulse">OVERLORD ACCESS</span>
+                    </div>
+                    <h3 id="active-user-name" class="font-orbitron font-bold text-lg text-white">Guest Operator</h3>
+                    <p id="active-user-languages" class="text-xs text-purple-300 font-mono">Languages: Rust, Python</p>
+                    <p id="active-user-bio" class="text-xs text-purple-400/90 italic mt-1 line-clamp-1">No bio loaded.</p>
+                </div>
+            </div>
+
+            <!-- Terminal indicators -->
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] font-mono text-purple-400 bg-purple-900/30 border border-purple-700/40 px-2.5 py-1 rounded">
+                    SYS: <span id="sys-status-text" class="text-emerald-400 animate-pulse">ONLINE</span>
+                </span>
+                <span id="active-user-tag" class="text-[10px] font-mono text-yellow-400 bg-yellow-950/30 border border-yellow-700/40 px-2.5 py-1 rounded uppercase">
+                    ID: NONE
+                </span>
+                <button onclick="logOut()" class="px-3 py-1 bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 hover:border-red-500 text-red-400 rounded text-xs font-orbitron transition-all">
+                    DECOUPLE
+                </button>
+            </div>
+        </div>
+
+        <!-- SECURE ADMIN MODULE (Visible only if Admin account detected) -->
+        <div id="admin-only-console" class="hidden max-w-6xl w-full mb-8 bg-black/80 border-2 border-red-500 rounded-xl p-5 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-red-900/50 pb-2">
+                <h4 class="font-orbitron font-bold text-red-500 text-sm tracking-widest flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                    HYPER-CORE SYSTEM MANAGEMENT [ADMIN OVERFLOW ACTIVE]
+                </h4>
+                <span class="text-[9px] font-mono text-red-400/80 uppercase">Node-Id: non-stop-quantum-overload</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-red-950/20 border border-red-500/30 p-3 rounded-lg text-xs space-y-2">
+                    <div class="font-orbitron font-bold text-yellow-400">CORE BYPASS LOGS</div>
+                    <div class="font-mono text-[10px] text-red-300 space-y-1 h-24 overflow-y-auto" id="admin-log-box">
+                        <div>&gt; System Overlord authorization bypass: OK</div>
+                        <div>&gt; Mainframe database linked...</div>
+                        <div>&gt; Overriding default protocol constraints...</div>
+                    </div>
+                </div>
+
+                <div class="bg-red-950/20 border border-red-500/30 p-3 rounded-lg text-xs space-y-2 flex flex-col justify-between">
+                    <div>
+                        <div class="font-orbitron font-bold text-yellow-400 mb-1">REALM LEVEL DIAGNOSTICS</div>
+                        <p class="text-[11px] text-purple-300">Simulate server adjustments, push system patches, or dispatch immediate hotfixes across global layers.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="simulateAdminAction('SYS_OVERLOAD')" class="flex-1 py-1.5 bg-red-600 hover:bg-red-500 text-white font-orbitron font-bold rounded text-[10px] transition-all uppercase">Overload Core</button>
+                        <button onclick="simulateAdminAction('SYS_CLEAN')" class="flex-1 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron font-bold rounded text-[10px] transition-all uppercase">Flush Memory</button>
+                    </div>
+                </div>
+
+                <div class="bg-red-950/20 border border-red-500/30 p-3 rounded-lg text-xs space-y-2">
+                    <div class="font-orbitron font-bold text-yellow-400">ADMINISTRATIVE BROADCAST</div>
+                    <input type="text" id="admin-broadcast-msg" placeholder="Broadcast notification to client terminals..." class="w-full bg-black border border-red-500/40 rounded p-1.5 text-[11px] text-red-200 placeholder-red-900 focus:outline-none focus:border-red-400 font-mono">
+                    <button onclick="sendAdminBroadcast()" class="w-full py-1 bg-gradient-to-r from-red-600 to-yellow-600 text-white font-orbitron font-bold text-[10.5px] rounded tracking-widest hover:brightness-110 active:scale-95 transition-all">
+                        DISPATCH BROADCAST
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Central Grid Container -->
+        <div class="max-w-6xl w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- 1. TEAMS -->
+                <button onclick="openFeature('TEAMS', 'Initiate alliances, build cosmic battle groups, and explore global software guilds.')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-users text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        TEAMS
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">Alliance Portal</span>
+                </button>
+
+                <!-- 2. PROJECTS-STAG DESIGN -->
+                <button onclick="openFeature('PROJECTS-STAG DESIGN', 'View active blueprints, stage cloud servers, and edit collaborative structural elements.')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-compass-drafting text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        PROJECTS-STAG DESIGN
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">Architecture & Blueprints</span>
+                </button>
+
+                <!-- 3. QUESTS -->
+                <button onclick="openFeature('QUESTS', 'Accept algorithm quests, resolve system vulnerabilities, and gain galactic experience points (XP).')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-shield-halved text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        QUESTS
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">Challenges & XP</span>
+                </button>
+
+                <!-- 4. PROFILE (Dynamic view options) -->
+                <button onclick="openFeature('YOUR REALM PROFILE', 'Displaying loaded data ledger... Change languages and sync directly with Firestore database.', true)" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-user-gear text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        PROFILE
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">Identity & Badges</span>
+                </button>
+
+                <!-- 5. JOIN THE REALMES -->
+                <button onclick="openFeature('JOIN THE REALMES', 'Request integration into primary command protocols, cosmic hubs, and private dev bunkers.')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-dungeon text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors text-center">
+                        JOIN THE REALMES
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">Initiate Sanctuary</span>
+                </button>
+
+                <!-- 6. LINKS -->
+                <button onclick="openFeature('LINKS', 'Explore global web portals, repository structures, and social development networks.')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-link text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        LINKS
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">External Portals</span>
+                </button>
+
+                <!-- 7. NON-STOP CODING -->
+                <button onclick="openFeature('NON-STOP CODING', 'Access terminal sandboxes, persistent compilers, and zero-break continuous engineering loops.')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-16 h-16 rounded-full bg-purple-900/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-terminal text-2xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        NON-STOP CODING
+                    </span>
+                    <span class="text-xs text-purple-400/60 mt-1 uppercase tracking-widest font-medium">The Endless Loop</span>
+                </button>
+
+                <!-- 8. LIVE-AT ITS PEAK (Highlighted Action Card) -->
+                <button onclick="openFeature('LIVE-AT ITS PEAK', 'Monitor real-time system performance, system-wide live transmissions, and hotfixes on the wire!')" class="btn-card live-btn p-6 rounded-2xl flex flex-col items-center justify-center text-center group relative overflow-hidden">
+                    <!-- Cosmic pulsing pulse badge -->
+                    <div class="absolute top-3 right-3 flex items-center gap-1.5 bg-red-600/90 text-white text-[10px] font-orbitron font-bold px-2.5 py-1 rounded-full animate-pulse shadow-md border border-red-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white block animate-ping"></span>
+                        LIVE
+                    </div>
+                    
+                    <div class="w-16 h-16 rounded-full bg-yellow-500/10 flex items-center justify-center border border-yellow-400/40 group-hover:border-red-500/60 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-fire-flame-curved text-2xl text-yellow-400 group-hover:text-red-500 transition-colors animate-bounce"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-lg tracking-wider text-yellow-400 group-hover:text-red-400 transition-colors">
+                        LIVE-AT ITS PEAK
+                    </span>
+                    <span class="text-xs text-yellow-400/70 mt-1 uppercase tracking-widest font-medium">Apex Status Portal</span>
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- INTERACTIVE PORTAL/FEATURE DETAIL MODAL -->
+    <div id="feature-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 hidden">
+        <div id="modal-container-box" class="w-full max-w-lg bg-purple-950/90 rounded-2xl border-2 border-yellow-500/40 p-6 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between border-b border-purple-800/60 pb-3">
+                <h3 id="modal-title" class="font-orbitron font-bold text-xl text-yellow-400">FEATURE NAME</h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-purple-900/40 flex items-center justify-center text-purple-300 hover:text-white border border-purple-700/40 hover:border-yellow-400/60 transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="modal-body-container" class="space-y-4">
+                <p id="modal-description" class="text-sm text-purple-100 leading-relaxed">Description goes here...</p>
+                
+                <!-- Extra dynamic panel specifically for PROFILE operations -->
+                <div id="modal-profile-extra" class="hidden space-y-4 pt-3 border-t border-purple-800/40">
+                    <div class="bg-purple-900/30 p-3 rounded-lg border border-purple-800/40">
+                        <div class="flex gap-4 items-center mb-3">
+                            <div id="mp-avatar-div" class="w-14 h-14 rounded-full flex items-center justify-center border-2 border-yellow-400 text-3xl overflow-hidden bg-gradient-to-br">
+                                <span id="mp-avatar-icon">👻</span>
+                            </div>
+                            <div>
+                                <h4 id="mp-displayname" class="font-bold text-white text-lg font-orbitron">Name</h4>
+                                <p id="mp-languages" class="text-xs text-yellow-400 font-mono">Languages: JS, Python</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            <span class="text-[10px] font-orbitron text-purple-300 tracking-wider">BIO / SYSTEM CREED</span>
+                            <p id="mp-bio-preview" class="text-xs text-slate-300 italic bg-purple-950/40 p-2 rounded border border-purple-800/30">No bio set.</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-purple-300">
+                            <div>CODESIGN KEY: <span id="mp-key" class="text-white font-bold"></span></div>
+                            <div>ROLE SECURITY: <span id="mp-role-type" class="text-emerald-400">STANDARD USER</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Profile updates form -->
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[11px] font-orbitron text-purple-300 tracking-wider mb-1">UPDATE CODING LANGUAGES & SECRETS</label>
+                            <input type="text" id="update-languages-input" placeholder="e.g. C++, Go, Python" class="w-full bg-purple-900/40 border border-purple-700/50 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-yellow-400 font-mono">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-orbitron text-purple-300 tracking-wider mb-1">UPDATE SYSTEM BIO</label>
+                            <textarea id="update-bio-input" rows="2" placeholder="Tell the cosmic network about your stack..." class="w-full bg-purple-900/40 border border-purple-700/50 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-yellow-400"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-orbitron text-purple-300 tracking-wider mb-1">UPDATE LOGO (URL OR EMJI)</label>
+                            <input type="text" id="update-logo-input" placeholder="🔧 or https://..." class="w-full bg-purple-900/40 border border-purple-700/50 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-yellow-400">
+                        </div>
+
+                        <button onclick="updateProfileComplete()" class="w-full py-2 bg-gradient-to-r from-yellow-500 to-amber-600 text-purple-950 text-xs font-orbitron font-bold rounded-lg hover:brightness-110 active:scale-95 transition-all">
+                            SYNC & RETRIEVE CHANGES
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal()" class="px-5 py-2 bg-purple-900/40 border border-purple-700/50 rounded-lg text-purple-200 font-orbitron text-xs hover:border-yellow-400/40 transition-all">
+                    CLOSE GATEWAY
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer status bar -->
+    <footer class="w-full text-center py-6 z-10 text-[10px] tracking-widest text-purple-400/40 uppercase font-orbitron">
+        &copy; 2026 Code-Realme-NonStoP | Absolute Dev Ecosystem
+    </footer>
+
+    <!-- FIREBASE AND CLIENT logic -->
+    <script type="module">
+        // Import the necessary modules safely from CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global state handling
+        let app, db, auth;
+        let activeProfile = null;
+
+        // Custom built-in cool avatars
+        const AVAILABLE_AVATARS = [
+            { icon: "👻", colors: "from-purple-500 to-indigo-600", desc: "Ghost" },
+            { icon: "🐵👓", colors: "from-amber-500 to-red-600", desc: "Cool Monkey" },
+            { icon: "🐱‍💻", colors: "from-emerald-500 to-teal-600", desc: "Cyber Cat" },
+            { icon: "🧙‍♂️", colors: "from-pink-500 to-rose-600", desc: "Wizard" },
+            { icon: "👽", colors: "from-blue-500 to-cyan-600", desc: "Alien" },
+            { icon: "🤖", colors: "from-zinc-700 to-slate-900", desc: "Mech" }
+        ];
+
+        // Global variables initialized or configured
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'code-realme-nonstop';
+        const defaultFirebaseConfig = {
+            apiKey: "dummy-key-for-local-preview",
+            authDomain: "dummy.firebaseapp.com",
+            projectId: "dummy-project",
+            storageBucket: "dummy.appspot.com",
+            messagingSenderId: "123456",
+            appId: "1:1234:web:abcd"
+        };
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : defaultFirebaseConfig;
+
+        // Initialize Firebase with fallback logs
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            console.log("Database & Security System Initialized successfully.");
+        } catch (err) {
+            console.error("Firebase Initialization Error:", err);
+            showToast("Database system is running in offline sandbox.", "warning");
+        }
+
+        // Handle typing username -> Dynamic first alphabet logo generator
+        window.handleNameInput = function(nameVal) {
+            const previewName = document.getElementById("live-preview-name");
+            const previewLogoText = document.getElementById("live-logo-text");
+            const customLogoVal = document.getElementById("reg-custom-logo").value.trim();
+
+            if (!nameVal.trim()) {
+                previewName.textContent = "Awaiting Name...";
+                if (!customLogoVal) {
+                    previewLogoText.innerHTML = "?";
+                }
+                return;
+            }
+
+            previewName.textContent = nameVal;
+
+            // Only update preview with initials if no custom logo is entered
+            if (!customLogoVal) {
+                const firstLetter = nameVal.trim().charAt(0).toUpperCase();
+                previewLogoText.innerHTML = firstLetter;
+                document.getElementById("selected-avatar").value = firstLetter;
+                document.getElementById("live-preview-logo-type").textContent = "Dynamic Name Initial";
+            }
+        };
+
+        // Handle typing custom logo
+        window.handleCustomLogo = function(logoVal) {
+            const previewLogoText = document.getElementById("live-logo-text");
+            const previewType = document.getElementById("live-preview-logo-type");
+
+            if (!logoVal.trim()) {
+                // Fallback to name initial
+                const nameVal = document.getElementById("reg-username").value.trim();
+                if (nameVal) {
+                    const firstLetter = nameVal.charAt(0).toUpperCase();
+                    previewLogoText.innerHTML = firstLetter;
+                    document.getElementById("selected-avatar").value = firstLetter;
+                    previewType.textContent = "Dynamic Name Initial";
+                } else {
+                    previewLogoText.innerHTML = "?";
+                    document.getElementById("selected-avatar").value = "";
+                    previewType.textContent = "Awaiting preset/customization...";
+                }
+                return;
+            }
+
+            // Check if logoVal is image URL
+            if (logoVal.startsWith("http://") || logoVal.startsWith("https://")) {
+                previewLogoText.innerHTML = `<img src="${logoVal}" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null; this.parentElement.innerHTML='⚠️'">`;
+                previewType.textContent = "Custom Image Web URL";
+            } else {
+                previewLogoText.innerHTML = logoVal;
+                previewType.textContent = "Custom Emoji/Text Symbol";
+            }
+
+            document.getElementById("selected-avatar").value = logoVal;
+        };
+
+        // Render Avatar select grid
+        function renderAvatars() {
+            const grid = document.getElementById("avatar-grid");
+            if (!grid) return;
+            grid.innerHTML = "";
+
+            AVAILABLE_AVATARS.forEach((av, index) => {
+                const div = document.createElement("button");
+                div.type = "button";
+                div.className = `avatar-btn flex flex-col items-center justify-center p-2 rounded-xl border-2 border-purple-800/40 bg-purple-950/20 hover:border-purple-500/40 transition-all duration-300`;
+                div.onclick = () => selectPresetAvatar(index, div);
+
+                div.innerHTML = `
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br ${av.colors} flex items-center justify-center shadow-inner mb-0.5 text-lg">
+                        <span>${av.icon}</span>
+                    </div>
+                    <span class="text-[8px] font-orbitron tracking-widest text-purple-300 uppercase">${av.desc}</span>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function selectPresetAvatar(index, el) {
+            // Reset visual buttons
+            document.querySelectorAll(".avatar-btn").forEach(btn => {
+                btn.classList.remove("border-yellow-400", "bg-purple-900/50", "shadow-md", "shadow-yellow-500/10");
+                btn.classList.add("border-purple-800/40", "bg-purple-950/20");
+            });
+
+            // Set active selection
+            el.classList.add("border-yellow-400", "bg-purple-900/50", "shadow-md", "shadow-yellow-500/10");
+            el.classList.remove("border-purple-800/40", "bg-purple-950/20");
+
+            const avatar = AVAILABLE_AVATARS[index];
+            document.getElementById("reg-custom-logo").value = ""; // Clear custom text override
+            document.getElementById("selected-avatar").value = avatar.icon;
+            document.getElementById("selected-avatar-color").value = avatar.colors;
+
+            // Update live card preview
+            const previewLogoText = document.getElementById("live-logo-text");
+            previewLogoText.innerHTML = avatar.icon;
+            document.getElementById("live-preview-logo-type").textContent = `Preset: ${avatar.desc}`;
+
+            const container = document.getElementById("live-logo-preview-container");
+            container.className = `w-12 h-12 rounded-full bg-gradient-to-br ${avatar.colors} flex items-center justify-center text-xl font-bold font-orbitron shadow-md`;
+        }
+
+        // Authenticate anonymously (or custom token if provided) as per rules
+        async function authenticateUser() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Authentication handshake failed:", err);
+            }
+        }
+
+        // Register Profile in Firestore (RULE 1 Strict Path: /artifacts/{appId}/public/data/profiles/{username})
+        async function registerProfile() {
+            const rawUsername = document.getElementById("reg-username").value.trim();
+            const password = document.getElementById("reg-password").value.trim();
+            const languages = document.getElementById("reg-languages").value.trim();
+            const bio = document.getElementById("reg-bio").value.trim();
+            let avatarIcon = document.getElementById("selected-avatar").value.trim();
+            const avatarColor = document.getElementById("selected-avatar-color").value;
+
+            if (!rawUsername || !password || !languages) {
+                showToast("Please complete all profile details and choose a password.", "error");
+                return;
+            }
+
+            // Standardize username to uppercase/no-spaces
+            const username = rawUsername.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+            if (!username) {
+                showToast("Invalid username symbols. Use alphanumeric.", "error");
+                return;
+            }
+
+            // If no custom or preset avatar selected, use first alphabet of user's name
+            if (!avatarIcon) {
+                avatarIcon = username.charAt(0);
+            }
+
+            // Detect Secret Admin Access Code
+            const isAdmin = languages.toLowerCase().includes("-admin-access");
+
+            // Auth guard
+            await authenticateUser();
+            const user = auth.currentUser;
+            if (!user) {
+                showToast("Identity verification currently offline.", "error");
+                return;
+            }
+
+            try {
+                // Rule 1: Public data path
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', username);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    showToast("Codesigner Name is already claimed! Choose another.", "error");
+                    return;
+                }
+
+                const profileData = {
+                    username: username,
+                    password: password, 
+                    languages: languages,
+                    bio: bio || "A silent developer navigating the digital cosmos.",
+                    avatarIcon: avatarIcon,
+                    avatarColor: avatarColor,
+                    isAdmin: isAdmin,
+                    ownerUid: user.uid,
+                    createdTimestamp: Date.now()
+                };
+
+                // Store in Firestore
+                await setDoc(docRef, profileData);
+                
+                if (isAdmin) {
+                    showToast("SYSTEM OVERLORD ACCESS DETECTED & SAVED!", "success");
+                } else {
+                    showToast("Codesigner profile recorded permanently!", "success");
+                }
+                
+                // Complete login with created profile
+                activeProfile = profileData;
+                loadDashboardUI();
+
+            } catch (err) {
+                console.error("Firestore database write error:", err);
+                showToast("Database sync error. Local fallback active.", "warning");
+                // Local memory fallback
+                activeProfile = { username, password, languages, bio, avatarIcon, avatarColor, isAdmin };
+                loadDashboardUI();
+            }
+        }
+
+        // Login Profile with existing Username and Password verification
+        async function loginProfile() {
+            const rawUsername = document.getElementById("login-username").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+            
+            if (!rawUsername || !password) {
+                showToast("Please enter Username and Password.", "error");
+                return;
+            }
+
+            const username = rawUsername.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+
+            // Authenticate first
+            await authenticateUser();
+            const user = auth.currentUser;
+            if (!user) {
+                showToast("Auth gateway unresponsive.", "error");
+                return;
+            }
+
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', username);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.password === password) {
+                        activeProfile = data;
+                        showToast("Codesigner deck unlocked successfully!", "success");
+                        loadDashboardUI();
+                    } else {
+                        showToast("Access Denied: Incorrect Security Password.", "error");
+                    }
+                } else {
+                    showToast("No database profile matched this key.", "error");
+                }
+            } catch (err) {
+                console.error("Firestore read error:", err);
+                showToast("Local profile access failed.", "error");
+            }
+        }
+
+        // Complete edit sync for all profile parameters (Languages, Bio, Logo/Avatar)
+        async function updateProfileComplete() {
+            if (!activeProfile) return;
+            const newLanguages = document.getElementById("update-languages-input").value.trim();
+            const newBio = document.getElementById("update-bio-input").value.trim();
+            const newLogo = document.getElementById("update-logo-input").value.trim();
+
+            if (!newLanguages) {
+                showToast("Languages cannot be empty.", "error");
+                return;
+            }
+
+            // Look for new admin access requests
+            const isAdmin = newLanguages.toLowerCase().includes("-admin-access");
+
+            await authenticateUser();
+            if (!auth.currentUser) return;
+
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', activeProfile.username);
+                
+                const updatedPayload = { 
+                    languages: newLanguages,
+                    bio: newBio || "A silent developer navigating the digital cosmos.",
+                    isAdmin: isAdmin
+                };
+
+                // If logo input has changed, update it as well
+                if (newLogo) {
+                    updatedPayload.avatarIcon = newLogo;
+                }
+
+                await updateDoc(docRef, updatedPayload);
+                
+                // Sync local memory and UI
+                activeProfile.languages = newLanguages;
+                activeProfile.bio = updatedPayload.bio;
+                activeProfile.isAdmin = isAdmin;
+                if (newLogo) {
+                    activeProfile.avatarIcon = newLogo;
+                }
+                
+                loadDashboardUI();
+                showToast("Profile changes synced with Database!", "success");
+                closeModal();
+            } catch (err) {
+                console.error("Failed to update profile parameters:", err);
+                showToast("Database update offline.", "error");
+            }
+        }
+
+        // Screen toggle & layout management
+        function loadDashboardUI() {
+            if (!activeProfile) return;
+
+            // Transition gates
+            document.getElementById("auth-gate").classList.add("hidden");
+            document.getElementById("main-dashboard").classList.remove("hidden");
+
+            // Populate dashboard user indicators
+            document.getElementById("active-user-name").textContent = activeProfile.username;
+            document.getElementById("active-user-languages").textContent = `Languages: ${activeProfile.languages}`;
+            document.getElementById("active-user-tag").textContent = `ID: ${activeProfile.username}`;
+            document.getElementById("active-user-bio").textContent = activeProfile.bio;
+
+            // Parse Logo - URL or emoji/initial
+            const activeLogoIcon = document.getElementById("active-user-avatar-icon");
+            if (activeProfile.avatarIcon.startsWith("http://") || activeProfile.avatarIcon.startsWith("https://")) {
+                activeLogoIcon.innerHTML = `<img src="${activeProfile.avatarIcon}" class="w-full h-full object-cover rounded-full">`;
+            } else {
+                activeLogoIcon.innerHTML = activeProfile.avatarIcon;
+            }
+
+            // Handle user visual avatar colors
+            const container = document.getElementById("active-user-avatar-container");
+            const avatarColorClass = activeProfile.avatarColor || "from-purple-500 to-indigo-600";
+            container.className = `w-14 h-14 rounded-full bg-gradient-to-br ${avatarColorClass} flex items-center justify-center border border-yellow-400/40 shadow-lg shadow-purple-500/15 text-2xl overflow-hidden`;
+
+            // Preset values in profile updater modal inputs
+            document.getElementById("update-languages-input").value = activeProfile.languages;
+            document.getElementById("update-bio-input").value = activeProfile.bio;
+            document.getElementById("update-logo-input").value = activeProfile.avatarIcon.startsWith("http") ? activeProfile.avatarIcon : "";
+
+            // Admin Module Activation
+            const banner = document.getElementById("dashboard-banner");
+            const adminModule = document.getElementById("admin-only-console");
+            const badge = document.getElementById("admin-indicator-badge");
+            const systemText = document.getElementById("active-system-badge");
+            const sysStatus = document.getElementById("sys-status-text");
+
+            if (activeProfile.isAdmin) {
+                banner.classList.add("admin-glow");
+                adminModule.classList.remove("hidden");
+                badge.classList.remove("hidden");
+                systemText.textContent = "SYSTEM OVERLORD COMMANDER";
+                systemText.className = "text-[10px] font-orbitron tracking-widest admin-text-pulse font-bold";
+                sysStatus.textContent = "OVERLORD SECURE ACTIVE";
+                sysStatus.className = "text-red-500 font-bold animate-pulse";
+                addAdminLog("Mainframe console acquired. Welcome Back Admin.");
+            } else {
+                banner.classList.remove("admin-glow");
+                adminModule.classList.add("hidden");
+                badge.classList.add("hidden");
+                systemText.textContent = "CODESIGNER CONNECTED";
+                systemText.className = "text-[10px] font-orbitron text-yellow-400 tracking-widest uppercase";
+                sysStatus.textContent = "ONLINE";
+                sysStatus.className = "text-emerald-400 animate-pulse";
+            }
+        }
+
+        // Live admin action simulator
+        window.simulateAdminAction = function(actionType) {
+            const logBox = document.getElementById("admin-log-box");
+            if (actionType === 'SYS_OVERLOAD') {
+                showToast("WARNING: CORE TEMPERATURE CRITICAL. POWER REDISTRIBUTED!", "warning");
+                addAdminLog("CRITICAL: Manual overload sequence initiated...");
+                addAdminLog("WARNING: Reactor heat level peaking at 112%...");
+                addAdminLog("INFO: Safeguard overrides accepted by Overlord authority.");
+            } else if (actionType === 'SYS_CLEAN') {
+                showToast("System database buffer cache purged.", "success");
+                addAdminLog("STATUS: Initiating cache sweep...");
+                addAdminLog("STATUS: Purged 1,402 orphaned connection packets...");
+                addAdminLog("SUCCESS: Memory buffer alignment optimized.");
+            }
+        };
+
+        window.sendAdminBroadcast = function() {
+            const input = document.getElementById("admin-broadcast-msg");
+            if (!input.value.trim()) return;
+
+            showToast(`Broadcast Dispatched: "${input.value}"`, "success");
+            addAdminLog(`BROADCAST: Sent payload [${input.value}]`);
+            input.value = "";
+        };
+
+        function addAdminLog(msg) {
+            const logBox = document.getElementById("admin-log-box");
+            if (!logBox) return;
+            const d = new Date();
+            const timeStr = d.toTimeString().split(' ')[0];
+            logBox.innerHTML += `<div>[${timeStr}] &gt; ${msg}</div>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function logOut() {
+            activeProfile = null;
+            document.getElementById("auth-gate").classList.remove("hidden");
+            document.getElementById("main-dashboard").classList.add("hidden");
+            document.getElementById("admin-only-console").classList.add("hidden");
+            document.getElementById("login-username").value = "";
+            document.getElementById("login-password").value = "";
+            
+            // Clear inputs
+            document.getElementById("reg-username").value = "";
+            document.getElementById("reg-password").value = "";
+            document.getElementById("reg-languages").value = "";
+            document.getElementById("reg-bio").value = "";
+            document.getElementById("reg-custom-logo").value = "";
+            document.getElementById("selected-avatar").value = "";
+            document.getElementById("live-logo-text").textContent = "?";
+            document.getElementById("live-preview-name").textContent = "Awaiting Name...";
+            
+            showToast("Session security keys wiped.", "warning");
+        }
+
+        // Global interface connectors
+        window.registerProfile = registerProfile;
+        window.loginProfile = loginProfile;
+        window.logOut = logOut;
+        window.updateProfileComplete = updateProfileComplete;
+
+        window.switchAuthTab = function(tab) {
+            const regTab = document.getElementById("tab-register");
+            const logTab = document.getElementById("tab-login");
+            const regSect = document.getElementById("register-section");
+            const logSect = document.getElementById("login-section");
+
+            if (tab === 'register') {
+                regTab.className = "flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all";
+                logTab.className = "flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all";
+                regSect.classList.remove("hidden");
+                logSect.classList.add("hidden");
+            } else {
+                logTab.className = "flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all";
+                regTab.className = "flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all";
+                logSect.classList.remove("hidden");
+                regSect.classList.add("hidden");
+            }
+        };
+
+        window.goHome = function() {
+            if (activeProfile) {
+                loadDashboardUI();
+            }
+        };
+
+        // Modal triggers
+        window.openFeature = function(title, desc, isProfile = false) {
+            const modal = document.getElementById("feature-modal");
+            const containerBox = document.getElementById("modal-container-box");
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-description").innerText = desc;
+
+            // Adapt modal boundary based on admin status
+            if (activeProfile && activeProfile.isAdmin) {
+                containerBox.classList.add("border-red-500");
+                containerBox.classList.remove("border-yellow-500/40");
+            } else {
+                containerBox.classList.remove("border-red-500");
+                containerBox.classList.add("border-yellow-500/40");
+            }
+
+            const profileExtra = document.getElementById("modal-profile-extra");
+            if (isProfile && activeProfile) {
+                profileExtra.classList.remove("hidden");
+                
+                // Fill details inside the visual modal
+                const mpAvatarDiv = document.getElementById("mp-avatar-div");
+                const mpAvatarIcon = document.getElementById("mp-avatar-icon");
+                
+                // Parse image URL or text icon
+                if (activeProfile.avatarIcon.startsWith("http://") || activeProfile.avatarIcon.startsWith("https://")) {
+                    mpAvatarIcon.innerHTML = `<img src="${activeProfile.avatarIcon}" class="w-full h-full object-cover rounded-full">`;
+                } else {
+                    mpAvatarIcon.innerHTML = activeProfile.avatarIcon;
+                }
+
+                const avatarColorClass = activeProfile.avatarColor || "from-purple-500 to-indigo-600";
+                mpAvatarDiv.className = `w-14 h-14 rounded-full flex items-center justify-center border-2 border-yellow-400 bg-gradient-to-br ${avatarColorClass} text-3xl overflow-hidden`;
+                
+                document.getElementById("mp-displayname").textContent = activeProfile.username;
+                document.getElementById("mp-languages").textContent = `Languages: ${activeProfile.languages}`;
+                document.getElementById("mp-key").textContent = activeProfile.username;
+                document.getElementById("mp-bio-preview").textContent = activeProfile.bio;
+
+                const roleType = document.getElementById("mp-role-type");
+                if (activeProfile.isAdmin) {
+                    roleType.textContent = "SYSTEM OVERLORD ADMIN";
+                    roleType.className = "text-red-500 font-bold";
+                } else {
+                    roleType.textContent = "STANDARD CODESIGNER";
+                    roleType.className = "text-emerald-400";
+                }
+            } else {
+                profileExtra.classList.add("hidden");
+            }
+
+            modal.classList.remove("hidden");
+        };
+
+        window.closeModal = function() {
+            document.getElementById("feature-modal").classList.add("hidden");
+        };
+
+        // Toast notifications
+        window.showToast = function(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            
+            let bgClass = "bg-emerald-950/95 border-emerald-500 text-emerald-300";
+            let iconClass = "fa-circle-check text-emerald-400";
+            
+            if (type === "error") {
+                bgClass = "bg-red-950/95 border-red-500 text-red-300";
+                iconClass = "fa-circle-exclamation text-red-400";
+            } else if (type === "warning") {
+                bgClass = "bg-amber-950/95 border-amber-500 text-amber-300";
+                iconClass = "fa-triangle-exclamation text-amber-400";
+            }
+
+            toast.className = `flex items-center gap-3 p-4 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 transform translate-x-12 opacity-0 pointer-events-auto ${bgClass}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${iconClass} text-lg"></i>
+                <div class="flex-1 text-xs font-semibold font-orbitron tracking-wider">${message}</div>
+                <button onclick="this.parentElement.remove()" class="text-xs hover:text-white transition-all"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            container.appendChild(toast);
+            
+            // Animate In
+            setTimeout(() => {
+                toast.classList.remove("translate-x-12", "opacity-0");
+            }, 10);
+
+            // Animate Out
+            setTimeout(() => {
+                toast.classList.add("translate-x-12", "opacity-0");
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        };
+
+        // Run setup on load
+        window.onload = function() {
+            renderAvatars();
+        }
+    </script>
+</body>
+</html>
