@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+.venv
+env/
+venv/
+sql_app.db
+node_modules/
+build/
+dist/
