@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code-Realme-NonStoP - Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0214;
+            background-image: radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(234, 179, 8, 0.08) 0%, transparent 50%);
+            overflow-x: hidden;
+            color: #f1f5f9;
+        }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .neon-glow-purple { box-shadow: 0 0 25px rgba(168, 85, 247, 0.25); }
+        .btn-card {
+            background: rgba(20, 10, 35, 0.6);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(234, 179, 8, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-card:hover {
+            border-color: #eab308;
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4), 0 0 15px rgba(234, 179, 8, 0.3);
+            background: rgba(30, 15, 50, 0.8);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between">
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+    <header class="w-full text-center py-6 z-10 px-4">
+        <h1 class="font-orbitron text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-yellow-400 to-purple-500">
+            CODE-REALME-NONSTOP
+        </h1>
+        <div class="h-1 w-full max-w-xl mx-auto bg-gradient-to-r from-transparent via-yellow-500 to-transparent mt-3"></div>
+    </header>
+
+    <main id="auth-gate" class="flex-grow flex items-center justify-center px-4 py-8 z-10">
+        <div class="w-full max-w-md bg-purple-950/40 backdrop-blur-md rounded-2xl border-2 border-yellow-500/30 p-8 neon-glow-purple">
+            <div id="login-section" class="space-y-6">
+                <h2 class="text-xl font-orbitron font-bold text-yellow-400 text-center">ACCESS ID DECK</h2>
+                <input type="text" id="username" placeholder="USERNAME" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 font-mono">
+                <input type="password" id="password" placeholder="PASSWORD" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 font-mono">
+                <button onclick="login()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-orbitron font-bold rounded-lg transition-all">ENGAGE DECK</button>
+                <p class="text-center text-xs text-purple-300">Don't have an ID? <a href="#" onclick="toggleAuth()" class="text-yellow-400">Register</a></p>
+            </div>
+            <div id="register-section" class="space-y-6 hidden">
+                <h2 class="text-xl font-orbitron font-bold text-yellow-400 text-center">INITIALIZE CODESIGN</h2>
+                <input type="text" id="reg-username" placeholder="USERNAME" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 font-mono">
+                <input type="password" id="reg-password" placeholder="PASSWORD" class="w-full bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 font-mono">
+                <button onclick="register()" class="w-full py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-purple-950 font-orbitron font-bold rounded-lg transition-all">SPARK COGNITION</button>
+                <p class="text-center text-xs text-purple-300">Already have an ID? <a href="#" onclick="toggleAuth()" class="text-yellow-400">Login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <main id="dashboard" class="hidden flex-grow flex flex-col items-center p-6 z-10 w-full">
+        <div class="max-w-6xl w-full bg-purple-950/25 border border-purple-800/30 rounded-xl p-4 mb-8 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-purple-900 font-bold text-xl" id="user-avatar">?</div>
+                <div>
+                    <h3 id="display-name" class="font-orbitron font-bold text-white">Guest</h3>
+                    <p id="display-social-id" class="text-xs text-yellow-400 font-mono">ID: ---</p>
+                </div>
+            </div>
+            <button onclick="logout()" class="px-4 py-2 bg-red-900/40 border border-red-500/30 text-red-400 rounded text-xs font-orbitron">DECOUPLE</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+            <div class="btn-card p-6 rounded-2xl text-center">
+                <i class="fa-solid fa-users text-3xl text-yellow-400 mb-4"></i>
+                <h4 class="font-orbitron font-bold">TEAMS</h4>
+            </div>
+            <div class="btn-card p-6 rounded-2xl text-center">
+                <i class="fa-solid fa-terminal text-3xl text-yellow-400 mb-4"></i>
+                <h4 class="font-orbitron font-bold">CODING</h4>
+            </div>
+            <div class="btn-card p-6 rounded-2xl text-center">
+                <i class="fa-solid fa-fire text-3xl text-red-500 mb-4 animate-pulse"></i>
+                <h4 class="font-orbitron font-bold">LIVE PEAK</h4>
+            </div>
+            <div class="btn-card p-6 rounded-2xl text-center" onclick="showFriends()">
+                <i class="fa-solid fa-address-book text-3xl text-yellow-400 mb-4"></i>
+                <h4 class="font-orbitron font-bold">FRIENDS</h4>
+            </div>
+        </div>
+
+        <div id="friends-panel" class="mt-8 w-full max-w-2xl bg-purple-900/20 border border-purple-500/30 rounded-xl p-6 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-orbitron text-yellow-400">FRIENDS & REQUESTS</h3>
+                <div class="flex gap-2">
+                    <input type="text" id="add-friend-id" placeholder="CRN-XXXXX" class="bg-purple-900/30 border border-purple-500/30 rounded p-1 text-xs font-mono focus:outline-none">
+                    <button onclick="sendRequest()" class="bg-yellow-500 text-purple-900 text-[10px] font-bold px-2 py-1 rounded">ADD</button>
+                </div>
+            </div>
+            <div id="requests-list" class="space-y-2 mb-4 border-b border-purple-800/30 pb-4 hidden">
+                <h4 class="text-[10px] text-purple-300 uppercase tracking-widest mb-2">Pending Requests</h4>
+            </div>
+            <div id="friends-list" class="space-y-3"></div>
+        </div>
+    </main>
+
+    <footer class="w-full text-center py-6 z-10 text-[10px] tracking-widest text-purple-400/40 uppercase font-orbitron">
+        &copy; 2026 Code-Realme-NonStoP | Absolute Dev Ecosystem
+    </footer>
+
+    <script>
+        let token = null;
+        let socialId = null;
+        let ws = null;
+        const API_URL = "http://localhost:8000";
+
+        function toggleAuth() {
+            document.getElementById('login-section').classList.toggle('hidden');
+            document.getElementById('register-section').classList.toggle('hidden');
+        }
+
+        async function register() {
+            const u = document.getElementById('reg-username').value;
+            const p = document.getElementById('reg-password').value;
+            const res = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: u, password: p})
+            });
+            if(res.ok) { showToast("Profile Initialized! Please Login."); toggleAuth(); }
+            else { showToast("Registration Failed", "error"); }
+        }
+
+        async function login() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const formData = new FormData();
+            formData.append('username', u);
+            formData.append('password', p);
+
+            const res = await fetch(`${API_URL}/token`, { method: 'POST', body: formData });
+            if(res.ok) {
+                const data = await res.json();
+                token = data.access_token;
+                socialId = data.social_id;
+                document.getElementById('display-name').innerText = u;
+                document.getElementById('display-social-id').innerText = `ID: ${socialId}`;
+                document.getElementById('user-avatar').innerText = u[0].toUpperCase();
+                document.getElementById('auth-gate').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                connectWS();
+                showToast("Deck Engaged");
+            } else { showToast("Access Denied", "error"); }
+        }
+
+        function connectWS() {
+            ws = new WebSocket(`ws://localhost:8000/ws/${socialId}?token=${token}`);
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if(data.type === 'status_update') { updateFriendsList(data); }
+                if(data.type === 'incoming_call') { showToast(`INCOMING CALL FROM ${data.from}`, "warning"); }
+            };
+        }
+
+        async function fetchProfile() {
+            const res = await fetch(`${API_URL}/users/me`, {
+                headers: {'Authorization': `Bearer ${token}`}
+            });
+            if(res.ok) {
+                const user = await res.json();
+                updateUIWithProfile(user);
+            }
+        }
+
+        function updateUIWithProfile(user) {
+            const reqList = document.getElementById('requests-list');
+            reqList.innerHTML = '<h4 class="text-[10px] text-purple-300 uppercase tracking-widest mb-2">Pending Requests</h4>';
+            if(user.friend_requests && user.friend_requests.length > 0) {
+                reqList.classList.remove('hidden');
+                user.friend_requests.forEach(rid => {
+                    const d = document.createElement('div');
+                    d.className = "flex justify-between items-center p-2 bg-yellow-500/10 rounded border border-yellow-500/20";
+                    d.innerHTML = `<span class="text-xs font-mono">${rid}</span><button onclick="acceptRequest('${rid}')" class="text-[10px] bg-yellow-500 text-purple-900 px-2 py-0.5 rounded font-bold">ACCEPT</button>`;
+                    reqList.appendChild(d);
+                });
+            } else { reqList.classList.add('hidden'); }
+
+            const fList = document.getElementById('friends-list');
+            fList.innerHTML = '';
+            if(user.friends && user.friends.length > 0) {
+                user.friends.forEach(fid => {
+                    const d = document.createElement('div');
+                    d.className = "flex justify-between items-center p-3 bg-purple-950/40 rounded border border-purple-800/30";
+                    d.innerHTML = `<span class="font-mono">${fid}</span><button onclick="callFriend('${fid}')" class="text-xs text-yellow-400 border border-yellow-400/30 px-2 py-1 rounded hover:bg-yellow-400/10 transition-all">FORCE CALL</button>`;
+                    fList.appendChild(d);
+                });
+            } else {
+                fList.innerHTML = '<p class="text-center text-xs text-purple-400">No friends found. Add someone by Social ID!</p>';
+            }
+        }
+
+        async function sendRequest() {
+            const target = document.getElementById('add-friend-id').value;
+            const res = await fetch(`${API_URL}/friends/request/${target}`, {
+                method: 'POST',
+                headers: {'Authorization': `Bearer ${token}`}
+            });
+            if(res.ok) { showToast("Request Sent"); document.getElementById('add-friend-id').value=''; }
+            else { showToast("User not found", "error"); }
+        }
+
+        async function acceptRequest(rid) {
+            const res = await fetch(`${API_URL}/friends/accept/${rid}`, {
+                method: 'POST',
+                headers: {'Authorization': `Bearer ${token}`}
+            });
+            if(res.ok) { showToast("Friend Added"); fetchProfile(); }
+        }
+
+        function callFriend(fid) {
+            if(ws) {
+                ws.send(JSON.stringify({type: 'force_call', to: fid}));
+                showToast(`CALLING ${fid}...`, "warning");
+            }
+        }
+
+        function updateFriendsList(data) {
+            // Real-time status update handling would go here
+            // For now, refresh profile to see friend list
+            fetchProfile();
+        }
+
+        function showFriends() {
+            const panel = document.getElementById('friends-panel');
+            panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) { fetchProfile(); }
+        }
+
+        function logout() {
+            if(ws) ws.close();
+            location.reload();
+        }
+
+        function showToast(msg, type="success") {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `p-4 rounded border ${type==='error'?'bg-red-900 border-red-500':'bg-emerald-900 border-emerald-500'} text-white text-xs font-orbitron`;
+            t.innerText = msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
