@@ -1,0 +1,2919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code-Realme-NonStop - Portal & Playgrounds</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Orbitron for Sci-Fi Gaming feel, Inter for text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for premium icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #06020c; /* Ultra deep space black */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(234, 179, 8, 0.06) 0%, transparent 40%);
+            overflow-x: hidden;
+            overflow-y: auto; /* Ensures scroll bars are applied */
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Decagon Avatar Shapes */
+        .shape-decagon {
+            clip-path: polygon(50% 0%, 80.9% 9.5%, 100% 34.5%, 100% 65.5%, 80.9% 90.5%, 50% 100%, 19.1% 90.5%, 0% 65.5%, 0% 34.5%, 19.1% 9.5%);
+        }
+
+        /* Ambient Glowing Accents */
+        .neon-glow-purple {
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+        }
+
+        .neon-glow-yellow {
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
+        }
+
+        /* Interactive Cyber Cards */
+        .btn-card {
+            background: rgba(18, 10, 32, 0.65);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(234, 179, 8, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-card:hover {
+            border-color: #eab308;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3), 0 0 15px rgba(234, 179, 8, 0.2);
+            background: rgba(30, 16, 52, 0.8);
+        }
+
+        /* Scanning Overlay Lines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.15) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        /* Custom Scrollbar Styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(20, 10, 35, 0.5);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(168, 85, 247, 0.5);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(234, 179, 8, 0.7);
+        }
+
+        /* Call Ringing Animations */
+        .animate-ring { animation: ring 1.5s infinite; }
+        @keyframes ring {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 relative flex flex-col justify-between overflow-y-auto">
+
+    <div class="scanlines"></div>
+    <!-- Interactive notifications container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+    <header class="w-full text-center py-6 z-10 px-4">
+        <div class="inline-block cursor-pointer" onclick="goHome()">
+            <h1 class="font-orbitron text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-yellow-400 to-purple-500 hover:scale-102 transition-transform duration-300">
+                CODE-REALME-NONSTOP
+            </h1>
+            <div class="h-1 w-full bg-gradient-to-r from-transparent via-yellow-500 to-transparent mt-3 rounded-full shadow-lg"></div>
+            <p class="text-[10px] md:text-xs font-orbitron tracking-widest text-purple-300 mt-2 uppercase opacity-85">
+                Global Interactive Workspace & Dynamic Staging Engines
+            </p>
+        </div>
+    </header>
+
+    <!-- GATEWAY MODAL/VIEW -->
+    <section id="auth-gate" class="flex-grow flex items-center justify-center px-4 py-8 z-10">
+        <div class="w-full max-w-4xl bg-purple-950/30 backdrop-blur-md rounded-2xl border-2 border-yellow-500/25 shadow-2xl p-6 md:p-8 neon-glow-purple">
+            <div class="flex border-b border-purple-800/60 mb-8 font-orbitron text-sm md:text-base">
+                <button id="tab-register" class="flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all" onclick="switchAuthTab('register')">
+                    <i class="fa-solid fa-user-plus mr-2"></i>CREATE SYSTEM DECK
+                </button>
+                <button id="tab-login" class="flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all" onclick="switchAuthTab('login')">
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>ACCESS CODESIGN KEY
+                </button>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="register-section" class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODESIGN IDENTIFIER *</label>
+                            <input type="text" id="reg-username" oninput="handleNameInput(this.value)" placeholder="e.g. NeoPrime" class="w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all font-mono placeholder-purple-400/20 uppercase tracking-wider text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">SECURITY ACCESS PASSPHRASE *</label>
+                            <input type="password" id="reg-password" placeholder="••••••••" class="w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-3 text-white focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODING LANGUAGES *</label>
+                            <div class="relative w-full">
+                                <div id="reg-lang-box" class="flex flex-wrap items-center gap-1.5 w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-2 min-h-[46px] transition-all focus-within:ring-1 focus-within:ring-yellow-400 cursor-text" onclick="document.getElementById('reg-lang-input').focus()">
+                                    <div id="reg-tags-wrapper" class="flex flex-wrap gap-1.5"></div>
+                                    <input type="text" id="reg-lang-input" placeholder="Type language and hit Enter..." class="bg-transparent border-none outline-none text-white font-mono placeholder-purple-400/30 flex-grow min-w-[150px] text-xs">
+                                </div>
+                                <div id="reg-lang-dropdown" class="absolute z-50 w-full mt-1 bg-purple-950/95 backdrop-blur border border-purple-500/50 rounded-lg shadow-xl max-h-40 overflow-y-auto hidden custom-scrollbar"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">BIO / MOTTO</label>
+                            <textarea id="reg-bio" rows="2" placeholder="e.g. Architecting interactive virtual universes..." class="w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-3 text-xs text-white focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all placeholder-purple-400/20"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-purple-900/10 border border-purple-500/20 rounded-xl p-3">
+                            <label class="block text-xs font-orbitron text-yellow-400 tracking-wider mb-2 text-center md:text-left">
+                                <i class="fa-solid fa-cloud-arrow-up mr-1"></i> UPLOAD AVATAR
+                            </label>
+                            <input type="file" id="reg-upload-avatar" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-xs text-purple-300 file:mr-4 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-[10px] file:font-orbitron file:bg-yellow-500 file:text-purple-950 hover:file:bg-yellow-400 cursor-pointer transition-all">
+                        </div>
+
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-1 text-center md:text-left">OR SELECT A FACTION CRADLE</label>
+                        <div class="grid grid-cols-5 gap-2" id="avatar-grid"></div>
+
+                        <div class="bg-purple-950/40 border border-yellow-500/20 rounded-xl p-3 flex items-center gap-4 mt-2">
+                            <div id="live-logo-preview-container" class="w-14 h-14 shape-decagon bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center text-xl font-bold font-orbitron text-purple-950 shadow-md border border-transparent">
+                                <span id="live-logo-text">?</span>
+                            </div>
+                            <div>
+                                <span class="text-[9px] font-orbitron text-yellow-400 tracking-wider">LIVE TELEMETRY CARD</span>
+                                <div id="live-preview-name" class="font-bold text-xs text-white font-mono uppercase tracking-widest">Awaiting Identity...</div>
+                                <div id="live-preview-logo-type" class="text-[9px] text-purple-300 mt-1">Preset: Dynamic Logo</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selected-avatar" value="">
+                        <input type="hidden" id="selected-avatar-color" value="">
+                        <input type="hidden" id="selected-image-url" value="">
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-purple-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="text-[10px] text-yellow-400/60 font-mono"><i class="fa-solid fa-database mr-1.5"></i>GLOBAL STATE DATABASE: SECURED</span>
+                    <button onclick="registerProfile()" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-purple-950 font-orbitron font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-500/20 active:scale-95 transition-all tracking-wider text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt animate-pulse"></i> SPARK COGNITION
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="login-section" class="space-y-6 hidden">
+                <div class="max-w-md mx-auto space-y-4 py-4">
+                    <div>
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">CODESIGN IDENTIFIER</label>
+                        <input type="text" id="login-username" placeholder="ENTER UNIQUE DECK KEY" class="w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-3 text-white text-center focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all font-mono placeholder-purple-400/20 uppercase tracking-widest text-base">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-orbitron text-purple-300 tracking-wider mb-2">PASSPHRASE</label>
+                        <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-purple-950/50 border border-purple-500/30 rounded-lg p-3 text-white text-center focus:outline-none focus:ring-1 focus:ring-yellow-400 transition-all font-mono text-base">
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-purple-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span class="text-[10px] text-purple-400/50 font-mono"><i class="fa-solid fa-lock mr-1.5"></i>Secure Session Syncing</span>
+                    <button onclick="loginProfile()" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-orbitron font-bold rounded-lg hover:shadow-lg hover:shadow-purple-500/30 active:scale-95 transition-all tracking-wider text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-unlock"></i> ENGAGE DECK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CENTRAL DASHBOARD -->
+    <main id="main-dashboard" class="hidden flex-grow flex flex-col items-center justify-center px-4 md:px-8 py-6 z-10 w-full overflow-y-auto">
+        
+        <!-- Welcome Banner Deck -->
+        <div id="dashboard-banner" class="max-w-7xl w-full mb-8 flex flex-col md:flex-row items-center justify-between gap-4 bg-purple-950/15 border border-purple-800/30 rounded-xl p-4 backdrop-blur-md transition-all duration-500">
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <div id="active-user-avatar-container" class="w-14 h-14 shape-decagon bg-gradient-to-br flex items-center justify-center shadow-lg text-xl flex-shrink-0">
+                    <span id="active-user-avatar-icon">👽</span>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2">
+                        <span id="active-system-badge" class="text-[9px] font-orbitron text-yellow-400 tracking-widest uppercase">CODESIGNER CONNECTED</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h3 id="active-user-name" class="font-orbitron font-bold text-base text-white">Guest</h3>
+                        <span id="active-user-social-id" class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-900/50 border border-purple-700/50 text-yellow-400 cursor-pointer hover:border-yellow-400 transition-all" title="Click to copy ID" onclick="copySocialIdToClipboard()">#NSP-0000-A</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span id="active-user-xp" class="text-[9px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded border border-yellow-500/30 font-mono font-bold">XP: 0</span>
+                        <p id="active-user-languages" class="text-[10px] text-purple-300 font-mono truncate max-w-[200px]">Languages: Rust</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Console Controllers -->
+            <div class="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto">
+                <!-- Notifications Alarm -->
+                <button onclick="toggleNotificationsMenu()" class="relative p-2 bg-purple-950/50 border border-purple-800/40 rounded hover:border-yellow-400 transition-all text-purple-300 hover:text-yellow-400">
+                    <i class="fa-solid fa-bell"></i>
+                    <span id="notification-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded-full hidden">0</span>
+                    
+                    <!-- Dropdown Alerts -->
+                    <div id="notification-dropdown" class="absolute top-full right-0 mt-2 w-64 bg-purple-950 border border-purple-800 rounded-lg shadow-2xl hidden flex-col max-h-60 overflow-y-auto custom-scrollbar z-50 text-left cursor-default" onclick="event.stopPropagation()">
+                        <div class="p-2 border-b border-purple-900 text-[9px] font-orbitron font-bold text-yellow-400 uppercase tracking-wider">Workspace Bulletins</div>
+                        <div id="notification-list" class="flex flex-col"></div>
+                    </div>
+                </button>
+
+                <span class="text-[9px] font-mono text-purple-400 bg-purple-950/50 border border-purple-800/40 px-2.5 py-1.5 rounded">
+                    STAGING: <span class="text-emerald-400 animate-pulse font-bold">STABLE</span>
+                </span>
+                <button onclick="logOut()" class="px-4 py-1.5 bg-red-950/20 hover:bg-red-900/35 border border-red-500/30 hover:border-red-500 text-red-400 rounded text-[10px] font-orbitron transition-all">
+                    DECOUPLE SECURE
+                </button>
+            </div>
+        </div>
+
+        <!-- Central Matrix Grid -->
+        <div class="max-w-7xl w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- PROJECTS WORKSPACE -->
+                <button onclick="openFeature('PROJECTS DIRECTORY', 'Configure file indexes and staging pipelines.', false, 'projects')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-folder-open text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        PROJECTS
+                    </span>
+                    <span class="text-[10px] text-purple-400/60 mt-1 uppercase tracking-widest font-mono">Directory Staging</span>
+                </button>
+
+                <!-- TEAMS PORTAL -->
+                <button onclick="openFeature('TEAM CREATIONS', 'Configure corporate credentials and align with repositories.', false, 'teams')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-people-group text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        TEAMS DECK
+                    </span>
+                    <span class="text-[10px] text-purple-400/60 mt-1 uppercase tracking-widest font-mono">Collaborative Keys</span>
+                </button>
+
+                <!-- ASSOCIATE NETWORKS -->
+                <button onclick="openFeature('COSMIC NETWORKS', 'Link user identifiers and track operational statistics.', false, 'friends')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-network-wired text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        ASSOCIATES
+                    </span>
+                    <span class="text-[10px] text-purple-400/60 mt-1 uppercase tracking-widest font-mono">Synced Identifiers</span>
+                </button>
+
+                <!-- PROFILE REGISTRY -->
+                <button onclick="openFeature('SECURITY ACCOUNT PROFILE', 'System verification ledger credentials.', true, 'profile')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-fingerprint text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">
+                        SECURITY REGISTRY
+                    </span>
+                    <span class="text-[10px] text-purple-400/60 mt-1 uppercase tracking-widest font-mono">Identity Badging</span>
+                </button>
+                
+                <!-- QUESTS DIRECTIVE -->
+                <button onclick="openFeature('CHALLENGE MODULES', 'Complete algorithm trials to gain operational score points.', false, 'quests')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-puzzle-piece text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">QUEST DIRECTIVES</span>
+                </button>
+
+                <!-- NON-STOP COMPILER SANDBOX -->
+                <button onclick="openFeature('NON-STOP COMPILER', 'Evaluate standard file trees with responsive dual engine.', false, 'coding')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group bg-gradient-to-br from-yellow-500/10 to-transparent border-yellow-500/25">
+                    <div class="w-14 h-14 rounded-full bg-yellow-500/15 flex items-center justify-center border border-yellow-500/30 group-hover:border-yellow-400 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-code text-xl text-yellow-400 animate-pulse"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-yellow-400 group-hover:scale-102 transition-transform">NON-STOP CODING</span>
+                    <span class="text-[10px] text-yellow-300/80 font-mono mt-1">Multi-Engine Playgrounds</span>
+                </button>
+
+                <!-- LINK INDEX -->
+                <button onclick="openFeature('LINK PROTOCOLS', 'Synchronize external web platform systems.', false, 'links')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-purple-950/40 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400/50 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-link text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">LINKS INDEX</span>
+                </button>
+
+                <!-- JOIN REALMES -->
+                <button onclick="openFeature('CORPORATE REALMES', 'Found elite tech groups, submit repos for God-Codee review.', false, 'join')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group bg-gradient-to-br from-purple-500/15 to-transparent border-purple-500/25">
+                    <div class="w-14 h-14 rounded-full bg-purple-500/15 flex items-center justify-center border border-purple-500/30 group-hover:border-yellow-400 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-building text-xl text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-purple-200 group-hover:text-yellow-400 transition-colors">REALMES OFFICE</span>
+                    <span class="text-[10px] text-purple-300/80 font-mono mt-1">Enterprise Directory</span>
+                </button>
+
+                <!-- FACECOMMS LIVE -->
+                <button onclick="openFeature('LIVE FACECOMMS', 'Real-time WebRTC audio/video sync with interactive collaborative coding.', false, 'facecomms')" class="btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group bg-gradient-to-br from-blue-500/15 to-transparent border-blue-500/25">
+                    <div class="w-14 h-14 rounded-full bg-blue-500/15 flex items-center justify-center border border-blue-500/30 group-hover:border-yellow-400 transition-colors mb-4 shadow-inner">
+                        <i class="fa-solid fa-video text-xl text-blue-400 group-hover:text-yellow-400 transition-colors animate-pulse"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-blue-200 group-hover:text-yellow-400 transition-colors">FACECOMMS LIVE</span>
+                    <span class="text-[10px] text-blue-300/80 font-mono mt-1">A/V & Code Sync</span>
+                </button>
+
+                <!-- GOD-EYE ADMIN (HIDDEN BY DEFAULT) -->
+                <button id="admin-dashboard-btn" onclick="openFeature('GOD-EYE ADMIN CORE', 'Absolute system oversight and telemetry override.', false, 'admin')" class="hidden btn-card p-6 rounded-2xl flex flex-col items-center justify-center text-center group bg-gradient-to-br from-red-600/20 to-transparent border-red-500/40">
+                    <div class="w-14 h-14 rounded-full bg-red-600/20 flex items-center justify-center border border-red-500/50 group-hover:border-white transition-colors mb-4 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                        <i class="fa-solid fa-eye text-xl text-red-500 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <span class="font-orbitron font-bold text-base tracking-wide text-red-400 group-hover:text-white transition-colors">GOD-EYE ADMIN</span>
+                    <span class="text-[10px] text-red-400/80 font-mono mt-1">Master Override</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FULL SCREEN INTERACTIVE PORTAL/FEATURE MODAL -->
+    <div id="feature-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-2 md:p-4 hidden transition-all duration-300">
+        <div id="modal-container-box" class="w-[98vw] h-[98vh] max-w-none bg-[#07030e]/95 rounded-2xl border-2 border-yellow-500/35 shadow-[0_0_50px_rgba(168,85,247,0.1)] flex flex-col overflow-hidden relative">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-purple-800/40 p-4 bg-purple-950/20 flex-shrink-0 z-10">
+                <div class="flex items-center gap-3">
+                    <i id="modal-title-icon" class="fa-solid fa-cubes text-yellow-400 text-xl drop-shadow-[0_0_6px_rgba(234,179,8,0.7)]"></i>
+                    <div>
+                        <h3 id="modal-title" class="font-orbitron font-bold text-lg md:text-xl text-yellow-400 tracking-wider">Workspace Feature</h3>
+                        <p id="modal-description" class="text-[9px] md:text-xs text-purple-300/80 font-mono italic truncate max-w-xl">Active dynamic portal context...</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-purple-950/60 flex items-center justify-center text-purple-300 hover:text-white hover:bg-red-600 hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] border border-purple-800/40 hover:border-transparent transition-all">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Workspace Container -->
+            <div id="modal-body-container" class="flex-grow overflow-y-auto custom-scrollbar p-4 md:p-6 text-slate-200 flex flex-col relative bg-gradient-to-b from-transparent to-[#04010a]">
+                
+                <!-- PROJECTS PORTAL -->
+                <div id="modal-projects-section" class="hidden h-full w-full flex flex-col md:flex-row gap-4">
+                    <!-- Left Sidebar File Lists -->
+                    <div class="w-full md:w-1/4 lg:w-1/5 bg-[#0e071a] border border-purple-800/30 rounded-xl p-3 flex flex-col h-full flex-shrink-0 shadow-inner">
+                        <button onclick="showCreateProjectForm()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-orbitron font-bold rounded shadow-md mb-4 transition-colors flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-circle-plus"></i> NEW SOURCE REPO
+                        </button>
+                        <div class="text-[9px] font-orbitron text-purple-400 mb-2 border-b border-purple-800/40 pb-1 uppercase tracking-wider">Active Repositories</div>
+                        <div id="prj-sidebar-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-1.5 pr-1">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Main Project Workspace -->
+                    <div id="prj-main-area" class="w-full md:w-3/4 lg:w-4/5 bg-[#0a0413] border border-purple-800/20 rounded-xl p-0 overflow-y-auto custom-scrollbar flex flex-col relative shadow-inner">
+                        <!-- Code workspace injected here -->
+                    </div>
+                </div>
+
+                <!-- TEAMS DIRECTORY -->
+                <div id="modal-teams-section" class="hidden w-full max-w-4xl mx-auto space-y-6">
+                    <div class="bg-purple-950/10 p-5 rounded-xl border border-purple-800/30 shadow-lg">
+                        <h4 class="font-orbitron font-bold text-xs text-yellow-400 flex items-center gap-2 mb-3">
+                            <i class="fa-solid fa-paper-plane"></i> PENDING TEAM PROPOSALS
+                        </h4>
+                        <div id="invites-list-container" class="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-orbitron font-bold text-xs text-yellow-400 tracking-wider">COLLABORATIVE PROJECT TEAM HIERARCHY</h4>
+                        <p class="text-[11px] text-purple-300 italic mb-2">Configure system access permissions for verified associates inside your repositories.</p>
+                        <div id="teams-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- ACCOUNT SYSTEM DETAILS -->
+                <div id="modal-profile-extra" class="hidden w-full max-w-3xl mx-auto space-y-6">
+                    <div class="bg-gradient-to-br from-purple-950/30 to-indigo-950/10 p-6 rounded-2xl border border-purple-800/40 shadow-xl">
+                        <div class="flex flex-col md:flex-row gap-6 items-center">
+                            <div id="mp-avatar-div" class="w-20 h-20 shape-decagon flex items-center justify-center bg-gradient-to-br text-3xl shadow-lg border border-yellow-400/50">
+                                <span id="mp-avatar-icon">👽</span>
+                            </div>
+                            <div class="text-center md:text-left flex-grow">
+                                <h4 id="mp-displayname" class="font-bold text-white text-2xl font-orbitron mb-1 tracking-wider">Systems Operative</h4>
+                                <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                                    <span id="mp-social-id" class="text-[10px] font-mono bg-black/40 px-2 py-0.5 rounded text-yellow-400 border border-purple-800/40 cursor-pointer hover:border-yellow-400 transition-all" onclick="copySocialIdToClipboard()">#NSP-XXXX-A <i class="fa-regular fa-copy ml-1"></i></span>
+                                    <span class="text-[10px] bg-emerald-950/30 text-emerald-400 border border-emerald-800/30 px-2 py-0.5 rounded font-mono">STAGING CORE: ONLINE</span>
+                                </div>
+                                <p id="mp-languages" class="text-xs text-purple-300 font-mono">Languages: JS, HTML</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-black/40 p-4 rounded-xl border border-purple-900/30">
+                            <span class="text-[9px] font-orbitron text-yellow-400 tracking-wider"><i class="fa-solid fa-quote-left mr-1"></i> CREDENTIAL SYST-CREED</span>
+                            <p id="mp-bio-preview" class="text-xs text-slate-300 italic leading-relaxed mt-1">Staging system bio.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 bg-[#0a0514] p-6 rounded-2xl border border-purple-900/40 shadow-lg relative">
+                        <h4 class="font-orbitron font-bold text-xs text-yellow-400 tracking-widest"><i class="fa-solid fa-gears mr-2"></i> UPDATE REGISTRY SCHEMATICS</h4>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-orbitron text-purple-300 tracking-wider mb-2">CORE PROGRAMMING LANGUAGES</label>
+                                <div class="relative w-full">
+                                    <div id="upd-lang-box" class="flex flex-wrap items-center gap-1.5 w-full bg-purple-950/40 border border-purple-800/40 rounded-lg p-2.5 min-h-[46px] transition-all focus-within:ring-1 focus-within:ring-yellow-400 cursor-text" onclick="document.getElementById('upd-lang-input').focus()">
+                                        <div id="upd-tags-wrapper" class="flex flex-wrap gap-1.5"></div>
+                                        <input type="text" id="upd-lang-input" placeholder="Type language to index..." class="bg-transparent border-none outline-none text-white font-mono placeholder-purple-400/30 flex-grow min-w-[120px] text-xs">
+                                    </div>
+                                    <div id="upd-lang-dropdown" class="absolute z-50 w-full mt-1 bg-purple-950/95 backdrop-blur border border-purple-500/50 rounded-lg shadow-xl max-h-40 overflow-y-auto hidden custom-scrollbar"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-orbitron text-purple-300 tracking-wider mb-2">SYSTEM BIOGRAPHY</label>
+                                <textarea id="update-bio-input" rows="3" placeholder="Identify yourself to the network..." class="w-full bg-purple-950/40 border border-purple-800/40 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-yellow-400 font-mono custom-scrollbar overflow-y-auto"></textarea>
+                            </div>
+                        </div>
+                        <button onclick="updateProfileComplete()" class="w-full py-2.5 bg-gradient-to-r from-yellow-500 to-amber-600 text-purple-950 text-xs font-orbitron font-bold rounded hover:shadow-lg transition-all tracking-wider">
+                            COMMIT PROFILE KEY SYSTEM
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ASSOCIATE DIRECTORY -->
+                <div id="modal-friends-section" class="hidden w-full max-w-4xl mx-auto space-y-6">
+                    <div class="bg-gradient-to-r from-purple-950/20 to-transparent p-5 rounded-xl border border-purple-800/30 space-y-4">
+                        <label class="block text-xs font-orbitron text-yellow-400 font-bold tracking-wider"><i class="fa-solid fa-satellite-dish mr-2"></i> LINK CODESIGNER INSTANCE ID</label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="add-friend-id-input" placeholder="e.g. NSP-4412-R" class="flex-grow bg-[#090311] border border-purple-700/50 rounded-lg p-3 text-xs text-yellow-400 font-mono focus:outline-none focus:border-yellow-400 uppercase tracking-widest shadow-inner">
+                            <button onclick="handleAddFriendSubmit()" class="px-6 py-3 bg-yellow-500 text-purple-950 text-xs font-orbitron font-bold rounded hover:bg-yellow-400 transition-all whitespace-nowrap shadow-md">
+                                <i class="fa-solid fa-circle-nodes mr-1"></i> ENGAGE LINK
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-orbitron font-bold text-xs text-yellow-400 tracking-wider border-b border-purple-800/30 pb-2">ACTIVE NETWORK LINKS</h4>
+                        <div id="friends-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    </div>
+                </div>
+
+                <!-- QUEST DIRECTIVES -->
+                <div id="modal-quests-section" class="hidden w-full max-w-3xl mx-auto space-y-4">
+                    <div id="quests-container" class="space-y-3"></div>
+                </div>
+
+                <!-- IDE / COMPILER CENTER -->
+                <div id="modal-coding-section" class="hidden h-full w-full flex flex-col lg:flex-row gap-4">
+                    
+                    <!-- Left File Explorer -->
+                    <div class="w-full lg:w-1/4 bg-[#0d071a] border border-purple-800/30 rounded-xl p-3 flex flex-col h-full shadow-inner flex-shrink-0">
+                        <div class="text-[9px] font-orbitron text-yellow-400 mb-2 tracking-widest border-b border-purple-800/40 pb-2 flex items-center justify-between">
+                            <span><i class="fa-solid fa-folder-tree mr-1.5"></i>STAGING WORKSPACE</span>
+                            <span id="compiler-project-badge" class="text-[8px] font-mono px-1.5 py-0.5 bg-yellow-500/10 border border-yellow-500/35 rounded text-yellow-400 font-bold">SANDBOX</span>
+                        </div>
+                        
+                        <!-- Workspace Repository Selector -->
+                        <div class="mb-4">
+                            <label class="block text-[9px] font-orbitron text-purple-300 mb-1">ACTIVE MOUNT SYSTEM</label>
+                            <select id="sandbox-repo-selector" onchange="switchSandboxRepoContext(this.value)" class="w-full bg-[#06020c] border border-purple-800 rounded p-1.5 text-xs font-mono text-yellow-400 focus:outline-none">
+                                <option value="sandbox">Local Sandbox Workspace</option>
+                            </select>
+                        </div>
+
+                        <!-- Real-time File Explorer Hierarchy -->
+                        <div class="text-[9px] font-orbitron text-purple-400 mb-2 border-b border-purple-800/30 pb-1 flex justify-between items-center uppercase tracking-wider">
+                            <span>Files Explorer</span>
+                            <button id="add-sandbox-file-btn" onclick="addSandboxFilePrompt()" class="text-xs text-yellow-400 hover:text-white" title="Add staged file"><i class="fa-solid fa-square-plus"></i></button>
+                        </div>
+                        <div id="compiler-file-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-1 pr-1 text-xs mb-4 max-h-[160px] lg:max-h-none">
+                            <!-- Injected Dynamic Files Explorer -->
+                        </div>
+
+                        <!-- Interactive Python Learning pathway Presets -->
+                        <div class="pt-3 border-t border-purple-800/40">
+                            <div class="text-[9px] font-orbitron text-yellow-400 mb-2 tracking-widest"><i class="fa-brands fa-python mr-1"></i> PYTHON LEARNING PATHWAY</div>
+                            <div class="grid grid-cols-2 gap-1.5 text-[9px] font-mono">
+                                <button onclick="loadPythonPreset('vars')" class="p-1.5 bg-black/40 border border-purple-800/30 text-left hover:border-yellow-400 rounded transition-colors text-purple-200">1. Variables</button>
+                                <button onclick="loadPythonPreset('loops')" class="p-1.5 bg-black/40 border border-purple-800/30 text-left hover:border-yellow-400 rounded transition-colors text-purple-200">2. Loops</button>
+                                <button onclick="loadPythonPreset('fns')" class="p-1.5 bg-black/40 border border-purple-800/30 text-left hover:border-yellow-400 rounded transition-colors text-purple-200">3. Functions</button>
+                                <button onclick="loadPythonPreset('lists')" class="p-1.5 bg-black/40 border border-purple-800/30 text-left hover:border-yellow-400 rounded transition-colors text-purple-200">4. Lists</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Editor Workspace -->
+                    <div class="w-full lg:w-2/5 bg-[#06020c] rounded-xl border border-purple-800/40 flex flex-col shadow-2xl h-full flex-grow">
+                        <div class="p-3 bg-purple-950/10 text-purple-400 text-xs font-mono border-b border-purple-800/30 flex items-center justify-between">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-microchip text-yellow-400 animate-pulse"></i> 
+                                EDITING: <span id="current-sandbox-filename" class="text-yellow-400 font-bold">index.html</span>
+                            </span>
+                            <!-- Staged Engine Selector -->
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] text-purple-400">STAGE ENGINE:</span>
+                                <select id="sandbox-engine-type" onchange="toggleEngineType(this.value)" class="bg-[#110620] border border-purple-800 rounded px-1 text-[9px] font-bold text-yellow-400 font-mono outline-none py-0.5">
+                                    <option value="web">Web Module (HTML/CSS/JS)</option>
+                                    <option value="python">Python Emulation System</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- High performance interactive code text block -->
+                        <textarea id="sandbox-textarea" class="w-full bg-black/30 border-none flex-grow font-mono text-xs text-green-400 focus:outline-none resize-none custom-scrollbar overflow-y-auto p-4 min-h-[250px]" placeholder="// Build real code here..."></textarea>
+                        
+                        <div class="flex items-center justify-between p-3 border-t border-purple-800/30 bg-purple-950/10">
+                            <span class="text-[9px] font-mono text-purple-400"><i class="fa-solid fa-circle text-emerald-400 mr-1 animate-pulse"></i>Interactive compiler: ONLINE</span>
+                            <button onclick="runSandboxCode()" class="px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron font-bold text-xs rounded shadow-lg hover:shadow-yellow-500/20 transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-play"></i> COMPILE / RUN
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Compiled App Preview Pane -->
+                    <div class="w-full lg:w-2/5 flex flex-col gap-4 h-full">
+                        <div class="bg-[#0e071a] border border-purple-800/30 rounded-xl flex-grow overflow-y-auto custom-scrollbar flex flex-col shadow-inner min-h-[250px] relative">
+                            <div class="p-3 border-b border-purple-800/40 bg-purple-950/20 flex justify-between items-center">
+                                <span class="font-orbitron font-bold text-xs text-yellow-400 tracking-wider"><i class="fa-solid fa-desktop mr-2"></i>APP COMPILED VIEWPORT</span>
+                                <span id="runtime-mode-badge" class="text-[8px] bg-yellow-500/10 text-yellow-400 border border-yellow-500/35 px-2 py-0.5 rounded font-mono font-bold">LIVE FRAME</span>
+                            </div>
+                            <div id="compiler-render-pane" class="flex-grow bg-slate-950 flex flex-col items-center justify-center p-0 relative overflow-y-auto custom-scrollbar h-full">
+                                <div class="text-center p-6 space-y-3">
+                                    <div class="w-12 h-12 rounded-full bg-purple-950/40 border border-purple-500/30 flex items-center justify-center mx-auto text-purple-300">
+                                        <i class="fa-solid fa-terminal text-2xl animate-pulse"></i>
+                                    </div>
+                                    <h5 class="font-orbitron text-xs text-yellow-400 uppercase tracking-widest">Compiler Pipeline Operational</h5>
+                                    <p class="text-[10px] text-purple-300 font-mono max-w-xs">Run HTML assemblies or select Python directives to review dynamic output.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lower Diagnostic Console Stream -->
+                        <div class="bg-black border border-purple-800/30 p-4 rounded-xl h-[150px] font-mono text-[10px] overflow-y-auto custom-scrollbar flex-shrink-0 relative">
+                            <div class="flex justify-between items-center text-[9px] text-purple-400 mb-2 font-orbitron tracking-wider">
+                                <span><i class="fa-solid fa-rectangle-list mr-1.5"></i>IDE SYSTEMS LOG CONSOLE</span>
+                                <button onclick="clearConsoleOutput()" class="text-red-400 hover:text-white transition-colors text-[8px]">CLEAR LOGS</button>
+                            </div>
+                            <div id="sandbox-output" class="text-emerald-400 leading-relaxed space-y-1">
+                                &gt; Virtual sandbox ready. Write code and hit COMPILE...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIRECT WEB INTERFACES -->
+                <div id="modal-links-section" class="hidden w-full max-w-4xl mx-auto overflow-y-auto custom-scrollbar">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="links-container"></div>
+                </div>
+
+                <!-- STREAMLINED CORPORATE REALMES SECTOR (FULL VIEW) -->
+                <div id="modal-join-section" class="hidden w-full max-w-7xl mx-auto flex-grow flex flex-col h-full min-h-0">
+                    <div id="realme-dynamic-container" class="w-full flex-grow flex flex-col h-full min-h-0 overflow-y-auto custom-scrollbar">
+                        <!-- Fully populated dynamic enterprise interface -->
+                    </div>
+                </div>
+
+                <!-- LIVE FACECOMMS MODULE -->
+                <div id="modal-facecomms-section" class="hidden w-full h-full flex flex-col md:flex-row gap-4">
+                    <div class="w-full md:w-1/4 bg-[#0e071a] border border-purple-800/30 rounded-xl p-3 flex flex-col h-full flex-shrink-0 shadow-inner">
+                        <div class="text-[9px] font-orbitron text-blue-400 mb-2 border-b border-purple-800/40 pb-1 uppercase tracking-wider"><i class="fa-solid fa-tower-cell mr-1"></i> Online Associates Directory</div>
+                        <div id="facecomms-friends-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-2 pr-1"></div>
+                    </div>
+                    <div class="w-full md:w-3/4 bg-[#0a0413] border border-blue-800/30 rounded-xl p-4 overflow-y-auto custom-scrollbar flex flex-col relative shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+                        <div id="facecomms-idle-state" class="flex-grow flex flex-col items-center justify-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-blue-900/20 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+                                <i class="fa-solid fa-satellite-dish text-3xl animate-pulse"></i>
+                            </div>
+                            <h3 class="font-orbitron font-bold text-lg text-blue-300 tracking-widest">COMMS UPLINK SECURED</h3>
+                            <p class="text-xs text-blue-400/60 font-mono mt-2 max-w-sm">Select an active node from your directory to establish a real-time Audio/Video & Interactive Coding bridge.</p>
+                        </div>
+                        <div id="facecomms-active-state" class="hidden flex-grow flex flex-col h-full">
+                            <div class="flex justify-between items-center mb-3 bg-black/40 p-2 rounded border border-blue-900/40">
+                                <span class="text-xs font-orbitron font-bold text-emerald-400 animate-pulse"><i class="fa-solid fa-circle text-[8px] mr-1"></i> LIVE TRANSMISSION ACTIVE</span>
+                                <span id="facecomms-timer" class="text-xs font-mono text-blue-300">00:00</span>
+                            </div>
+                            <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <!-- Local Video / Screen -->
+                                <div class="relative bg-black rounded-lg border border-purple-800/50 overflow-hidden flex flex-col shadow-inner group min-h-[200px]">
+                                    <video id="local-video" autoplay muted class="w-full h-full object-cover"></video>
+                                    <div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-mono text-white border border-purple-500/30">YOU</div>
+                                </div>
+                                <!-- Remote Partner Video -->
+                                <div class="relative bg-[#05020a] rounded-lg border border-blue-800/50 overflow-hidden flex flex-col shadow-inner justify-center items-center min-h-[200px]">
+                                    <video id="remote-video" autoplay class="w-full h-full object-cover hidden"></video>
+                                    <div id="remote-video-placeholder" class="text-center">
+                                        <i class="fa-solid fa-user-astronaut text-4xl text-blue-900 mb-2"></i>
+                                        <p class="text-[10px] text-blue-400 font-mono">Awaiting Uplink Match...</p>
+                                    </div>
+                                    <div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-mono text-white border border-blue-500/30" id="remote-user-label">TARGET DIRECTORY</div>
+                                </div>
+                            </div>
+                            <!-- A/V Controls -->
+                            <div class="flex justify-center gap-4 py-3 border-t border-blue-900/30">
+                                <button id="btn-toggle-mic" onclick="toggleMic()" class="w-12 h-12 rounded-full bg-purple-900/80 hover:bg-purple-700 text-white flex items-center justify-center transition-all border border-purple-500/50"><i class="fa-solid fa-microphone"></i></button>
+                                <button id="btn-toggle-vid" onclick="toggleVideo()" class="w-12 h-12 rounded-full bg-purple-900/80 hover:bg-purple-700 text-white flex items-center justify-center transition-all border border-purple-500/50"><i class="fa-solid fa-video"></i></button>
+                                <button onclick="endCall()" class="w-12 h-12 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center transition-all shadow-[0_0_15px_rgba(220,38,38,0.6)] border border-red-400"><i class="fa-solid fa-phone-slash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOD-EYE ADMIN DASHBOARD -->
+                <div id="modal-admin-section" class="hidden w-full max-w-7xl mx-auto h-full flex flex-col">
+                    <div class="bg-red-950/20 border-b border-red-900/50 p-4 flex justify-between items-center mb-4 rounded-t-xl">
+                        <h3 class="font-orbitron font-bold text-red-500 text-lg tracking-widest flex items-center gap-2"><i class="fa-solid fa-skull-crossbones"></i> OMNISCIENT SYSTEM OVERRIDE</h3>
+                        <span class="bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded animate-pulse">ADMIN OVERWATCH PROTOCOL</span>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-grow overflow-y-auto custom-scrollbar p-2">
+                        <div class="bg-[#0a0204] border border-red-900/40 rounded-xl p-4 shadow-inner">
+                            <h4 class="text-xs font-orbitron font-bold text-red-400 mb-3"><i class="fa-solid fa-users-viewfinder"></i> ALL ENTITIES & SECURITY LOGS</h4>
+                            <div id="admin-users-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1"></div>
+                        </div>
+                        <div class="bg-[#0a0204] border border-red-900/40 rounded-xl p-4 shadow-inner">
+                            <h4 class="text-xs font-orbitron font-bold text-red-400 mb-3"><i class="fa-solid fa-folder-tree"></i> GLOBAL REPOSITORIES (ALL ACCESS)</h4>
+                            <div id="admin-projects-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1"></div>
+                        </div>
+                        <div class="bg-[#0a0204] border border-red-900/40 rounded-xl p-4 shadow-inner">
+                            <h4 class="text-xs font-orbitron font-bold text-red-400 mb-3"><i class="fa-solid fa-tower-broadcast"></i> TRANSMISSION & CHAT INTERCEPTS</h4>
+                            <p class="text-[9px] text-red-300/60 font-mono mb-2">Decrypted Live Comms History</p>
+                            <div id="admin-calls-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- User Inspection Dossier Modal -->
+    <div id="user-inspect-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 hidden overflow-y-auto custom-scrollbar">
+        <div class="w-full max-w-md bg-purple-950 rounded-xl border-2 border-purple-500/40 p-6 space-y-5 shadow-2xl relative my-auto">
+            <div class="flex items-center justify-between border-b border-purple-800/40 pb-3">
+                <h4 class="font-orbitron font-bold text-xs text-yellow-400 tracking-wider"><i class="fa-solid fa-user-shield mr-2"></i> CODESIGNER PORTAL DOSSIER</h4>
+                <button onclick="closeUserInspectModal()" class="text-purple-300 hover:text-white bg-purple-900/40 w-6 h-6 flex justify-center items-center rounded-full"><i class="fa-solid fa-xmark text-xs"></i></button>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-black/30 p-4 rounded-xl border border-purple-800/30">
+                <div id="uim-avatar-div" class="w-12 h-12 shape-decagon flex items-center justify-center text-xl border border-yellow-400/20"></div>
+                <div>
+                    <h5 id="uim-name" class="font-orbitron font-bold text-white text-sm">Operator ID</h5>
+                    <p id="uim-social-id" class="text-[10px] font-mono text-yellow-400 mt-0.5">Instance Code</p>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <span class="text-[9px] font-orbitron text-purple-400 tracking-wider">CREED STATEMENT</span>
+                <p id="uim-bio" class="text-xs text-purple-200 bg-purple-900/20 p-3 rounded-lg border border-purple-800/30 italic">Staging system biography...</p>
+            </div>
+
+            <div class="space-y-1.5">
+                <span class="text-[9px] font-orbitron text-purple-400 tracking-wider">CAPABILITY STACK</span>
+                <div id="uim-languages" class="flex flex-wrap gap-1.5"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INCOMING CALL MODAL -->
+    <div id="incoming-call-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-lg hidden transition-opacity overflow-y-auto">
+        <div class="bg-[#080312] border-2 border-blue-500/50 rounded-2xl p-8 shadow-[0_0_50px_rgba(59,130,246,0.3)] max-w-sm w-full text-center relative overflow-hidden my-auto">
+            <div class="absolute inset-0 bg-blue-500/10 animate-pulse pointer-events-none"></div>
+            <div class="w-24 h-24 rounded-full bg-blue-900/40 border-4 border-blue-400 flex items-center justify-center mx-auto mb-4 relative animate-ring">
+                <i class="fa-solid fa-phone-volume text-4xl text-blue-300"></i>
+            </div>
+            <h2 class="font-orbitron font-bold text-xl text-white tracking-widest mb-1">INCOMING TRANSMISSION</h2>
+            <p id="incoming-caller-name" class="text-blue-300 font-mono text-sm mb-8">Operator Name</p>
+            <div class="flex justify-center gap-6">
+                <button onclick="acceptIncomingCall()" class="w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-all shadow-[0_0_20px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-phone text-xl"></i></button>
+                <button onclick="rejectIncomingCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center transition-all shadow-[0_0_20px_rgba(220,38,38,0.5)]"><i class="fa-solid fa-phone-slash text-xl"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLIENT ARCHITECTURAL DATABASE LOGIC & MULTIPLAYER BACKEND -->
+    <script type="module">
+        // Global Dynamic Workspace Database (Now synchronized via WebSocket)
+        const inMemoryDb = {
+            realmes: {},
+            callHistory: [],
+            activeCalls: {},
+            profiles: {}
+        };
+
+        let activeProfile = null;
+        let activeProjectViewId = null;
+
+        // WebSocket & P2P Broadcast Network Manager
+        const NetworkManager = {
+            ws: null,
+            wsUrl: 'ws://localhost:8080', // Replace with your production WS server URL
+            channel: new BroadcastChannel('code-realme-sync'),
+            
+            init() {
+                // Attempt standard WebSocket connection
+                try {
+                    this.ws = new WebSocket(this.wsUrl);
+                    this.ws.onopen = () => {
+                        console.log("WebSocket connected successfully.");
+                        this.broadcast({ type: 'REQUEST_FULL_SYNC' });
+                    };
+                    this.ws.onmessage = (e) => this.handleMessage(JSON.parse(e.data));
+                    this.ws.onerror = (e) => {
+                        console.log("WebSocket unavailable. Falling back to local P2P cross-tab multiplayer sync.");
+                    };
+                } catch(e) {
+                    console.log("WebSocket init failed.");
+                }
+
+                // Fallback: Listen to cross-tab messages for serverless local multiplayer
+                this.channel.onmessage = (e) => {
+                    this.handleMessage(e.data);
+                };
+
+                // Request initial state from network peers on boot
+                setTimeout(() => this.broadcast({ type: 'REQUEST_FULL_SYNC' }), 800);
+            },
+            
+            broadcast(data) {
+                if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                    this.ws.send(JSON.stringify(data));
+                } else {
+                    this.channel.postMessage(data);
+                }
+            },
+
+            handleMessage(payload) {
+                if (payload.type === 'REQUEST_FULL_SYNC') {
+                    if (Object.keys(inMemoryDb.profiles).length > 0) {
+                        this.broadcast({ type: 'FULL_SYNC', db: inMemoryDb });
+                    }
+                } else if (payload.type === 'FULL_SYNC') {
+                    inMemoryDb.profiles = { ...inMemoryDb.profiles, ...payload.db.profiles };
+                    inMemoryDb.realmes = { ...inMemoryDb.realmes, ...payload.db.realmes };
+                    inMemoryDb.activeCalls = { ...inMemoryDb.activeCalls, ...payload.db.activeCalls };
+                    this.refreshGlobalUIs();
+                } else if (payload.type === 'UPDATE_PROFILE') {
+                    inMemoryDb.profiles[payload.data.username] = payload.data;
+                    if (activeProfile && activeProfile.username === payload.data.username) {
+                        const oldNotifs = activeProfile.notifications ? activeProfile.notifications.length : 0;
+                        activeProfile = payload.data;
+                        const newNotifs = activeProfile.notifications ? activeProfile.notifications.length : 0;
+                        
+                        const dashboard = document.getElementById("main-dashboard");
+                        if (dashboard && !dashboard.classList.contains("hidden")) {
+                            updateNotificationsUI();
+                            if (newNotifs > oldNotifs) {
+                                const latestNotif = activeProfile.notifications[activeProfile.notifications.length - 1];
+                                window.showToast(latestNotif.message, "success");
+                            }
+                        }
+                    }
+                    this.refreshGlobalUIs();
+                } else if (payload.type === 'UPDATE_REALME') {
+                    inMemoryDb.realmes[payload.data.id] = payload.data;
+                    if (!document.getElementById("modal-join-section").classList.contains("hidden") && activeProfile) {
+                        renderRealmeDashboard();
+                    }
+                } else if (payload.type === 'UPDATE_CALL') {
+                    inMemoryDb.activeCalls[payload.data.id] = payload.data;
+                    window.checkIncomingCalls();
+                }
+            },
+
+            refreshGlobalUIs() {
+                if (!document.getElementById("modal-friends-section").classList.contains("hidden")) renderFriendsList();
+                if (!document.getElementById("modal-admin-section").classList.contains("hidden") && activeProfile && activeProfile.isAdmin) renderAdminDashboard();
+            }
+        };
+
+        async function saveProfileData(profileObj) {
+            inMemoryDb.profiles[profileObj.username] = profileObj;
+            NetworkManager.broadcast({ type: 'UPDATE_PROFILE', data: profileObj });
+        }
+
+        async function saveRealmeData(realmObj) {
+            inMemoryDb.realmes[realmObj.id] = realmObj;
+            NetworkManager.broadcast({ type: 'UPDATE_REALME', data: realmObj });
+        }
+
+        async function saveCallData(callObj) {
+            inMemoryDb.activeCalls[callObj.id] = callObj;
+            NetworkManager.broadcast({ type: 'UPDATE_CALL', data: callObj });
+        }
+
+        // Sandbox execution states
+        let currentSandboxRepoKey = "sandbox";
+        let currentSandboxFileIndex = 0;
+        let currentSandboxFileList = [
+            { name: "index.html", code: `<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <script src="https://cdn.tailwindcss.com"><\/script>\n</head>\n<body class="bg-[#05020c] text-white p-6 h-screen flex flex-col justify-center items-center font-sans">\n  <div class="max-w-md w-full bg-[#120726]/80 p-8 rounded-2xl border border-yellow-500/30 text-center shadow-2xl">\n    <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">HOT COMPILER DECK</h1>\n    <p class="text-slate-300 text-xs mt-3">Web Staging Engine Active. Write standard HTML structural blocks to compile live viewports.</p>\n    \n    <button onclick="pingCore()" class="mt-5 px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-bold rounded-lg transition-all active:scale-95 text-xs font-mono shadow-md">DIAGNOSTICS PING</button>\n    <p id="ping-log" class="mt-4 text-purple-300 text-[11px] font-mono">Telemetry awaiting ping...</p>\n  </div>\n\n  <script>\n    function pingCore() {\n      const metrics = ["CORE_SYS_STABLE", "STAGE_SYNC_COMPLETE", "MATRIX_RENDERED"];\n      const pick = metrics[Math.floor(Math.random() * metrics.length)];\n      const log = document.getElementById("ping-log");\n      log.style.color = "#eab308";\n      log.innerText = "Reactor telemetry: " + pick;\n    }\n  <\/script>\n</body>\n</html>` },
+            { name: "main.py", code: `# Interactive Python Playground\nprint("Welcome to Code-Realme-NonStop Python Compiler.")\n\n# Configure conditions and lists below\nusername = "Operative"\nrank_score = 950\n\nif rank_score > 900:\n    print(f"Systems calibrated successfully, {username}!")\nelse:\n    print("Initiating system calibration sequence...")` }
+        ];
+
+        const AVAILABLE_AVATARS = [
+            { icon: '<i class="fa-solid fa-user-ninja text-white"></i>', bg: "bg-red-600", desc: "Crimson Sector" },
+            { icon: '<i class="fa-solid fa-user-ninja text-white"></i>', bg: "bg-blue-600", desc: "Azure Sector" },
+            { icon: '<i class="fa-solid fa-user-ninja text-white"></i>', bg: "bg-purple-600", desc: "Void Grid" },
+            { icon: '<i class="fa-solid fa-user-ninja text-white"></i>', bg: "bg-yellow-500", desc: "Gold Order" },
+            { icon: '<i class="fa-solid fa-user-ninja text-white"></i>', bg: "bg-green-600", desc: "Jade Matrix" }
+        ];
+
+        const PROGRAMMING_LANGUAGES = [
+            "HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "C++", "Go", "Rust", "Swift", "Kotlin", "Solidity"
+        ];
+
+        let regLanguagesState = [];
+        let updLanguagesState = [];
+
+        // Global functions mapped to window
+        window.generateRandomSocialId = function() {
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let seg = '';
+            for (let i = 0; i < 4; i++) {
+                seg += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            const verifyCode = characters.charAt(Math.floor(Math.random() * characters.length));
+            return `NSP-${seg}-${verifyCode}`;
+        };
+
+        window.showToast = function(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            
+            let bgClass = "bg-emerald-950/95 border-emerald-500 text-emerald-300";
+            let iconClass = "fa-circle-check text-emerald-400";
+            
+            if (type === "error") {
+                bgClass = "bg-red-950/95 border-red-500 text-red-300";
+                iconClass = "fa-circle-exclamation text-red-400";
+            } else if (type === "warning") {
+                bgClass = "bg-amber-950/95 border-amber-500 text-amber-300";
+                iconClass = "fa-triangle-exclamation text-amber-400";
+            }
+
+            toast.className = `flex items-center gap-3 p-3.5 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 transform translate-x-12 opacity-0 pointer-events-auto ${bgClass}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${iconClass} text-base"></i>
+                <div class="flex-1 text-[11px] font-semibold font-orbitron tracking-wider">${message}</div>
+                <button onclick="this.parentElement.remove()" class="text-xs hover:text-white transition-all"><i class="fa-solid fa-xmark"></i></button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove("translate-x-12", "opacity-0"), 10);
+            setTimeout(() => {
+                toast.classList.add("translate-x-12", "opacity-0");
+                setTimeout(() => toast.remove(), 300);
+            }, 4500);
+        };
+
+        window.goHome = function() {
+            if (activeProfile) loadDashboardUI();
+        };
+
+        window.switchAuthTab = function(tab) {
+            const regTab = document.getElementById("tab-register");
+            const logTab = document.getElementById("tab-login");
+            const regSect = document.getElementById("register-section");
+            const logSect = document.getElementById("login-section");
+
+            if (tab === 'register') {
+                regTab.className = "flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all";
+                logTab.className = "flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all";
+                regSect.classList.remove("hidden");
+                logSect.classList.add("hidden");
+            } else {
+                logTab.className = "flex-1 text-center pb-3 text-yellow-400 border-b-2 border-yellow-400 font-bold transition-all";
+                regTab.className = "flex-1 text-center pb-3 text-purple-300/60 font-medium hover:text-purple-200 transition-all";
+                logSect.classList.remove("hidden");
+                regSect.classList.add("hidden");
+            }
+        };
+
+        window.copySocialIdToClipboard = function() {
+            if (!activeProfile) return;
+            const inputTemp = document.createElement("input");
+            inputTemp.value = activeProfile.socialId;
+            document.body.appendChild(inputTemp);
+            inputTemp.select();
+            document.execCommand('copy');
+            document.body.removeChild(inputTemp);
+            window.showToast(`Copied Instance Key: ${activeProfile.socialId}`, "success");
+        };
+
+        window.completeQuest = function(questId, xpAward) {
+            activeProfile.xp += xpAward;
+            document.getElementById("active-user-xp").textContent = `XP: ${activeProfile.xp}`;
+            window.showToast(`Task ${questId} resolved! Gained +${xpAward} XP.`, "success");
+            saveProfileData(activeProfile);
+        };
+
+        function initTagSystem(inputId, wrapperId, dropdownId, stateGetter, stateSetter) {
+             const input = document.getElementById(inputId);
+             const wrapper = document.getElementById(wrapperId);
+             const dropdown = document.getElementById(dropdownId);
+
+             function renderTags() {
+                 wrapper.innerHTML = '';
+                 const arr = stateGetter();
+                 arr.forEach((lang, idx) => {
+                     const tag = document.createElement('span');
+                     tag.className = "flex items-center gap-1 bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 px-2 py-0.5 rounded text-[10px] font-mono shadow-sm tracking-wider";
+                     tag.innerHTML = `${lang} <button type="button" class="hover:text-red-400 transition-colors" onclick="window.removeTag('${inputId}', ${idx})"><i class="fa-solid fa-xmark"></i></button>`;
+                     wrapper.appendChild(tag);
+                 });
+             }
+
+             if (!window.tagSystems) window.tagSystems = {};
+             window.tagSystems[inputId] = { render: renderTags };
+
+             window.removeTag = function(sysId, index) {
+                 let arr = (sysId === 'reg-lang-input') ? regLanguagesState : updLanguagesState;
+                 arr.splice(index, 1);
+                 window.tagSystems[sysId].render();
+             }
+
+             function addTag(lang) {
+                const arr = stateGetter();
+                const cleanLang = lang.trim();
+                if (!arr.includes(cleanLang) && cleanLang !== '') {
+                    arr.push(cleanLang);
+                    stateSetter(arr);
+                    renderTags();
+                }
+                input.value = '';
+                dropdown.classList.add('hidden');
+                input.focus();
+             }
+
+             input.addEventListener('input', (e) => {
+                 const val = e.target.value.toLowerCase();
+                 dropdown.innerHTML = '';
+                 if (!val) { dropdown.classList.add('hidden'); return; }
+                 
+                 const matches = PROGRAMMING_LANGUAGES.filter(l => l.toLowerCase().includes(val));
+                 if (matches.length > 0) {
+                     dropdown.classList.remove('hidden');
+                     matches.forEach(m => {
+                         const div = document.createElement('div');
+                         div.className = "px-3 py-1.5 text-xs font-mono text-purple-200 hover:bg-purple-900/60 hover:text-yellow-400 cursor-pointer border-b border-purple-800/10 last:border-0";
+                         div.textContent = m;
+                         div.onmousedown = (event) => event.preventDefault(); 
+                         div.onclick = () => addTag(m);
+                         dropdown.appendChild(div);
+                     });
+                 }
+             });
+
+             input.addEventListener('keydown', (e) => {
+                 if (e.key === 'Enter') {
+                     e.preventDefault();
+                     addTag(input.value);
+                 }
+             });
+        }
+
+        window.handleNameInput = function(nameVal) {
+            const previewName = document.getElementById("live-preview-name");
+            const previewLogoText = document.getElementById("live-logo-text");
+            const uploadedImg = document.getElementById("selected-image-url").value;
+            const presetSelected = document.getElementById("selected-avatar").value;
+            if (!nameVal.trim()) {
+                previewName.textContent = "Awaiting Identity...";
+                if (!uploadedImg && presetSelected === "") previewLogoText.innerHTML = "?";
+                return;
+            }
+            previewName.textContent = nameVal;
+            if (!uploadedImg && presetSelected === "") {
+                previewLogoText.innerHTML = nameVal.trim().charAt(0).toUpperCase();
+                document.getElementById("live-preview-logo-type").textContent = "Initial Badge";
+            }
+        };
+
+        window.renderAvatars = function() {
+            const grid = document.getElementById("avatar-grid");
+            if (!grid) return;
+            grid.innerHTML = "";
+            AVAILABLE_AVATARS.forEach((av, index) => {
+                const div = document.createElement("button");
+                div.type = "button";
+                div.className = `avatar-btn flex flex-col items-center justify-center p-2 rounded-xl border-2 border-purple-800/40 bg-purple-950/20 hover:border-purple-500/40 transition-all duration-300`;
+                div.onclick = () => window.selectPresetAvatar(index, div);
+                div.innerHTML = `<div class="w-10 h-10 shape-decagon ${av.bg} flex items-center justify-center shadow-inner mb-1 text-lg">${av.icon}</div>`;
+                grid.appendChild(div);
+            });
+        };
+
+        window.selectPresetAvatar = function(index, el) {
+            document.querySelectorAll(".avatar-btn").forEach(btn => {
+                btn.classList.remove("border-yellow-400", "bg-purple-900/50");
+                btn.classList.add("border-purple-800/40", "bg-purple-950/20");
+            });
+            document.getElementById("reg-upload-avatar").value = "";
+            document.getElementById("selected-image-url").value = "";
+            el.classList.add("border-yellow-400", "bg-purple-900/50");
+            el.classList.remove("border-purple-800/40", "bg-purple-950/20");
+
+            const avatar = AVAILABLE_AVATARS[index];
+            document.getElementById("selected-avatar").value = avatar.icon;
+            document.getElementById("selected-avatar-color").value = avatar.bg;
+
+            document.getElementById("live-logo-text").innerHTML = avatar.icon;
+            document.getElementById("live-preview-logo-type").textContent = `${avatar.desc}`;
+            document.getElementById("live-logo-preview-container").className = `w-14 h-14 shape-decagon ${avatar.bg} flex items-center justify-center text-xl font-bold shadow-md border border-yellow-400/50`;
+        };
+
+        window.handleImageUpload = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.querySelectorAll(".avatar-btn").forEach(btn => {
+                    btn.classList.remove("border-yellow-400", "bg-purple-900/50");
+                    btn.classList.add("border-purple-800/40", "bg-purple-950/20");
+                });
+                const url = URL.createObjectURL(file);
+                document.getElementById("selected-avatar").value = "CUSTOM_IMAGE";
+                document.getElementById("selected-image-url").value = url;
+                document.getElementById("selected-avatar-color").value = "bg-transparent";
+
+                document.getElementById("live-logo-text").innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;
+                document.getElementById("live-preview-logo-type").textContent = "Custom Image Upload";
+                document.getElementById("live-logo-preview-container").className = `w-14 h-14 shape-decagon bg-purple-900 flex items-center justify-center shadow-md overflow-hidden p-0 m-0 border border-yellow-400/50`;
+            }
+        };
+
+        window.registerProfile = async function() {
+            const rawUsername = document.getElementById("reg-username").value.trim();
+            const password = document.getElementById("reg-password").value.trim();
+            const languages = regLanguagesState.join(", ");
+            const bio = document.getElementById("reg-bio").value.trim();
+            let avatarIcon = document.getElementById("selected-avatar").value.trim();
+            const avatarColor = document.getElementById("selected-avatar-color").value;
+            const imageUrl = document.getElementById("selected-image-url").value;
+
+            if (!rawUsername || !password || regLanguagesState.length === 0) {
+                window.showToast("Initialize all registry criteria and select 1 language.", "error"); return;
+            }
+
+            const username = rawUsername.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+            if (inMemoryDb.profiles[username]) { window.showToast("Codesign identifier already exists.", "error"); return; }
+
+            if (imageUrl) avatarIcon = `<img src="${imageUrl}" class="w-full h-full object-cover">`;
+            else if (!avatarIcon) avatarIcon = username.charAt(0);
+
+            const profileData = {
+                username: username, password: password, languages: languages, bio: bio || "Navigating the stage cores.",
+                avatarIcon: avatarIcon, avatarColor: imageUrl ? "bg-purple-900" : (avatarColor || "bg-gradient-to-br from-yellow-500 to-amber-600"),
+                socialId: window.generateRandomSocialId(),
+                friends: [], projects: [], pendingInvites: [], notifications: [], xp: 0,
+                realmeId: null, realmeInvites: [],
+                createdTimestamp: Date.now()
+            };
+
+            activeProfile = profileData;
+            inMemoryDb.profiles[username] = profileData;
+            await saveProfileData(profileData);
+            
+            window.showToast("Codesigner identity registered successfully.", "success");
+            loadDashboardUI();
+        };
+
+        window.loginProfile = function() {
+            const rawUsername = document.getElementById("login-username").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+            if (!rawUsername || !password) { window.showToast("Enter secure identification parameters.", "error"); return; }
+
+            const isGodModeLogin = rawUsername.toUpperCase().endsWith("=-=ADMIN@CODEEE");
+            const username = isGodModeLogin ? rawUsername.toUpperCase() : rawUsername.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+            
+            // Check for hidden admin back-door creation
+            if (isGodModeLogin && !inMemoryDb.profiles[username] && password === "GodMode777") {
+                const adminProfile = {
+                    username: username, password: password, languages: "Omniscience", bio: "Absolute Administrator",
+                    avatarIcon: '<i class="fa-solid fa-eye text-red-500"></i>', avatarColor: "bg-black", isAdmin: true,
+                    socialId: "NSP-" + Math.floor(Math.random()*9000) + "-ADM",
+                    friends: [], pendingInvites: [], notifications: [], xp: 999999, realmeId: null, realmeInvites: [], projects: [], createdTimestamp: Date.now()
+                };
+                inMemoryDb.profiles[username] = adminProfile;
+                saveProfileData(adminProfile);
+            }
+
+            const profile = inMemoryDb.profiles[username];
+
+            if (profile && profile.password === password) {
+                activeProfile = profile;
+                window.showToast("Core system deck unlocked successfully.", "success");
+                loadDashboardUI();
+            } else {
+                window.showToast("Failed Verification: Secure deck rejected parameters.", "error");
+            }
+        };
+
+        window.logOut = function() {
+            activeProfile = null;
+            document.getElementById("auth-gate").classList.remove("hidden");
+            document.getElementById("main-dashboard").classList.add("hidden");
+            window.showToast("Session disconnected. Staging grid decoupled.", "warning");
+            window.closeModal();
+        };
+
+        function loadDashboardUI() {
+            if (!activeProfile) return;
+            document.getElementById("auth-gate").classList.add("hidden");
+            document.getElementById("main-dashboard").classList.remove("hidden");
+
+            document.getElementById("active-user-name").textContent = activeProfile.username;
+            document.getElementById("active-user-languages").textContent = `Languages: ${activeProfile.languages}`;
+            document.getElementById("active-user-social-id").textContent = `#${activeProfile.socialId}`;
+            document.getElementById("active-user-xp").textContent = `XP: ${activeProfile.xp}`;
+            document.getElementById("active-user-avatar-icon").innerHTML = activeProfile.avatarIcon;
+            document.getElementById("active-user-avatar-container").className = `w-14 h-14 shape-decagon ${activeProfile.avatarColor} flex items-center justify-center shadow-lg text-xl overflow-hidden flex-shrink-0`;
+
+            const adminBtn = document.getElementById("admin-dashboard-btn");
+            if (activeProfile.isAdmin) adminBtn.classList.remove("hidden");
+            else adminBtn.classList.add("hidden");
+
+            window.syncRepoSelectors();
+            updateNotificationsUI();
+        }
+
+        function updateNotificationsUI() {
+            if (!activeProfile) return;
+            const badge = document.getElementById("notification-badge");
+            const list = document.getElementById("notification-list");
+            
+            list.innerHTML = "";
+            if (!activeProfile.notifications || activeProfile.notifications.length === 0) {
+                badge.classList.add("hidden");
+                list.innerHTML = `<div class="p-3 text-[10px] text-purple-400 italic text-center">Diagnostics quiet. No system bulletins.</div>`;
+            } else {
+                badge.textContent = activeProfile.notifications.length;
+                badge.classList.remove("hidden");
+                
+                activeProfile.notifications.slice().reverse().forEach((notif, index) => {
+                    list.innerHTML += `
+                        <div class="p-2.5 border-b border-purple-800/30 hover:bg-purple-900/20 transition-colors flex justify-between items-start">
+                            <p class="text-[10px] text-purple-200 leading-normal">${notif.message}</p>
+                            <button onclick="window.dismissNotification(${activeProfile.notifications.length - 1 - index})" class="text-purple-500 hover:text-red-400 ml-2"><i class="fa-solid fa-xmark text-[9px]"></i></button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        window.toggleNotificationsMenu = function() {
+            const drop = document.getElementById("notification-dropdown");
+            drop.classList.toggle("hidden");
+            drop.classList.toggle("flex");
+        };
+        
+        window.dismissNotification = function(index) {
+            activeProfile.notifications.splice(index, 1);
+            saveProfileData(activeProfile);
+            updateNotificationsUI();
+        };
+
+        window.addGlobalNotification = function(targetSocialId, message) {
+            Object.values(inMemoryDb.profiles).forEach(p => {
+                if(p.socialId === targetSocialId) {
+                    if(!p.notifications) p.notifications = [];
+                    p.notifications.push({ message: message, time: Date.now() });
+                    saveProfileData(p);
+                }
+            });
+        };
+
+        window.updateProfileComplete = function() {
+            if (!activeProfile) return;
+            const newLanguages = updLanguagesState.join(", ");
+            const newBio = document.getElementById("update-bio-input").value.trim();
+
+            if (updLanguagesState.length === 0) {
+                window.showToast("Maintain at least 1 verified coding language tag.", "error"); return;
+            }
+
+            activeProfile.languages = newLanguages;
+            activeProfile.bio = newBio || "Staging registry profile.";
+            
+            saveProfileData(activeProfile);
+            loadDashboardUI();
+            window.showToast("System schematics successfully committed.", "success");
+            window.closeModal();
+        };
+
+        // NAVIGATION SWITCHER
+        window.openFeature = function(title, desc, isProfile = false, routerTab = '') {
+            const modal = document.getElementById("feature-modal");
+            document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-description").innerText = desc;
+
+            const iconMap = {
+                'profile': 'fa-fingerprint', 'friends': 'fa-network-wired', 'projects': 'fa-folder-open',
+                'teams': 'fa-people-group', 'quests': 'fa-puzzle-piece', 'join': 'fa-building',
+                'links': 'fa-link', 'coding': 'fa-code', 'facecomms': 'fa-video', 'admin': 'fa-eye'
+            };
+            document.getElementById("modal-title-icon").className = `fa-solid ${iconMap[routerTab] || 'fa-cubes'} text-yellow-400 text-xl drop-shadow-[0_0_6px_rgba(234,179,8,0.7)]`;
+
+            ['modal-profile-extra', 'modal-friends-section', 'modal-projects-section', 
+             'modal-teams-section', 'modal-quests-section', 'modal-join-section', 
+             'modal-links-section', 'modal-coding-section', 'modal-facecomms-section', 'modal-admin-section'].forEach(id => {
+                document.getElementById(id).classList.add("hidden");
+            });
+
+            if (isProfile) {
+                document.getElementById("modal-profile-extra").classList.remove("hidden");
+                document.getElementById("mp-avatar-icon").innerHTML = activeProfile.avatarIcon;
+                document.getElementById("mp-avatar-div").className = `w-20 h-20 shape-decagon flex items-center justify-center border border-yellow-400/40 ${activeProfile.avatarColor} text-3xl overflow-hidden shadow-lg`;
+                document.getElementById("mp-displayname").textContent = activeProfile.username;
+                document.getElementById("mp-languages").textContent = `Languages: ${activeProfile.languages}`;
+                document.getElementById("mp-social-id").innerHTML = `#${activeProfile.socialId} <i class="fa-regular fa-copy ml-1"></i>`;
+                document.getElementById("mp-bio-preview").textContent = activeProfile.bio;
+                
+                updLanguagesState = activeProfile.languages.split(",").map(s => s.trim()).filter(s => s);
+                if(window.tagSystems && window.tagSystems['upd-lang-input']) window.tagSystems['upd-lang-input'].render();
+                document.getElementById("update-bio-input").value = activeProfile.bio;
+
+            } else if (routerTab === 'projects') {
+                document.getElementById("modal-projects-section").classList.remove("hidden");
+                window.renderProjectsSidebar();
+                if (activeProfile.projects.length > 0) window.openProjectRepo(activeProfile.projects[0].id);
+                else window.showCreateProjectForm();
+
+            } else if (routerTab === 'friends') {
+                document.getElementById("modal-friends-section").classList.remove("hidden");
+                window.renderFriendsList();
+            } else if (routerTab === 'teams') {
+                document.getElementById("modal-teams-section").classList.remove("hidden");
+                window.renderTeamsDashboard();
+            } else if (routerTab === 'quests') {
+                document.getElementById("modal-quests-section").classList.remove("hidden");
+                window.renderQuestsDashboard();
+            } else if (routerTab === 'links') {
+                document.getElementById("modal-links-section").classList.remove("hidden");
+                window.renderLinks();
+            } else if (routerTab === 'join') {
+                document.getElementById("modal-join-section").classList.remove("hidden");
+                window.renderRealmeDashboard();
+            } else if (routerTab === 'coding') {
+                document.getElementById("modal-coding-section").classList.remove("hidden");
+                window.syncRepoSelectors();
+                window.loadSandboxWorkspace();
+            } else if (routerTab === 'facecomms') {
+                document.getElementById("modal-facecomms-section").classList.remove("hidden");
+                window.renderFaceCommsUI();
+            } else if (routerTab === 'admin' && activeProfile.isAdmin) {
+                document.getElementById("modal-admin-section").classList.remove("hidden");
+                window.renderAdminDashboard();
+            }
+
+            modal.classList.remove("hidden");
+        };
+
+        window.closeModal = function() {
+            document.getElementById("feature-modal").classList.add("hidden");
+            activeProjectViewId = null;
+        };
+
+        // REPOSITORY SYSTEMS & FILE EXPLORER BINDINGS
+        window.syncRepoSelectors = function() {
+            const selector = document.getElementById("sandbox-repo-selector");
+            if (!selector) return;
+            selector.innerHTML = `<option value="sandbox">Local Sandbox Workspace</option>`;
+            
+            if (activeProfile && activeProfile.projects) {
+                activeProfile.projects.forEach(p => {
+                    selector.innerHTML += `<option value="${p.id}">[Local] ${p.name}</option>`;
+                });
+            }
+
+            if (activeProfile && activeProfile.realmeId && inMemoryDb.realmes[activeProfile.realmeId]) {
+                const realm = inMemoryDb.realmes[activeProfile.realmeId];
+                if (realm.approvedRepos) {
+                    realm.approvedRepos.forEach(r => {
+                        if (!activeProfile.projects.some(p => p.id === r.projectId)) {
+                            selector.innerHTML += `<option value="${r.projectId}">[Realme] ${r.name}</option>`;
+                        }
+                    });
+                }
+            }
+        };
+
+        window.renderProjectsSidebar = function() {
+            const list = document.getElementById("prj-sidebar-list");
+            list.innerHTML = "";
+            if (activeProfile.projects.length === 0) {
+                list.innerHTML = `<div class="text-[9px] text-purple-400 italic p-2">Staging directory empty.</div>`;
+                return;
+            }
+
+            activeProfile.projects.forEach(proj => {
+                const isSelected = activeProjectViewId === proj.id;
+                list.innerHTML += `
+                    <div onclick="window.openProjectRepo('${proj.id}')" class="p-2 rounded-lg cursor-pointer transition-all border ${isSelected ? 'bg-purple-900/40 border-yellow-500/50' : 'bg-black/30 border-purple-900/20 hover:border-purple-800/40'}">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-orbitron font-bold text-[10px] text-white truncate"><i class="fa-solid fa-folder text-purple-400 mr-1.5"></i>${proj.name}</span>
+                            ${proj.visibility === 'Public' ? '<i class="fa-solid fa-globe text-[8px] text-emerald-400"></i>' : '<i class="fa-solid fa-key-skeleton text-[8px] text-red-400"></i>'}
+                        </div>
+                        <div class="text-[8px] font-mono text-purple-400 truncate">${proj.id}</div>
+                    </div>
+                `;
+            });
+        };
+
+        window.showCreateProjectForm = function() {
+            activeProjectViewId = null;
+            window.renderProjectsSidebar();
+
+            let friendsChecklistHtml = '';
+            if (activeProfile.friends.length === 0) {
+                friendsChecklistHtml = `<p class="text-xs italic text-purple-400">No active networked associates registered.</p>`;
+            } else {
+                activeProfile.friends.forEach(fId => {
+                    const fProf = Object.values(inMemoryDb.profiles).find(p => p.socialId === fId);
+                    if (fProf) {
+                        friendsChecklistHtml += `
+                            <label class="flex items-center gap-2 p-2 bg-black/40 border border-purple-900/30 rounded cursor-pointer hover:bg-purple-900/20 transition-colors">
+                                <input type="checkbox" class="proj-friend-invite accent-yellow-400" value="${fProf.socialId}">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-5 h-5 shape-decagon ${fProf.avatarColor} text-[8px] flex items-center justify-center">${fProf.avatarIcon}</div>
+                                    <span class="font-mono text-[10px] text-purple-100">${fProf.username}</span>
+                                </div>
+                            </label>
+                        `;
+                    }
+                });
+            }
+
+            const mainArea = document.getElementById("prj-main-area");
+            mainArea.innerHTML = `
+                <div class="p-6 h-full flex flex-col overflow-y-auto custom-scrollbar">
+                    <h3 class="font-orbitron font-bold text-base text-yellow-400 mb-2 border-b border-purple-800/30 pb-2"><i class="fa-solid fa-folder-plus mr-2"></i> INITIALIZE NEW REPOSITORY</h3>
+                    
+                    <div class="space-y-4 mt-4 max-w-2xl">
+                        <div>
+                            <label class="block text-[10px] font-orbitron text-purple-300 tracking-wider mb-1">REPOSITORY NAME *</label>
+                            <input type="text" id="new-proj-name" placeholder="e.g. quantum-assembler" class="w-full bg-[#06020c] border border-purple-800 rounded p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[10px] font-orbitron text-purple-300 tracking-wider mb-1">STAGING REPOSITORY OBJECTIVES</label>
+                            <textarea id="new-proj-desc" rows="2" placeholder="Detail the core assembly scope..." class="w-full bg-[#06020c] border border-purple-800 rounded p-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400 resize-none overflow-y-auto custom-scrollbar"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-orbitron text-purple-300 tracking-wider mb-2">VISIBILITY KEY STATE</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer group">
+                                    <input type="radio" name="proj-vis" value="Public" checked class="accent-yellow-400">
+                                    <span class="text-xs font-mono text-purple-200 group-hover:text-white"><i class="fa-solid fa-globe text-emerald-400 mr-1"></i> Public Staging</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer group">
+                                    <input type="radio" name="proj-vis" value="Private" class="accent-yellow-400">
+                                    <span class="text-xs font-mono text-purple-200 group-hover:text-white"><i class="fa-solid fa-lock text-red-400 mr-1"></i> Encrypted Core</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-purple-800/30">
+                            <label class="block text-[10px] font-orbitron text-yellow-400 tracking-wider mb-2"><i class="fa-solid fa-satellite-dish mr-1"></i> SPREAD COLLABORATIVE CREDENTIAL ACCESS KEYS</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-40 overflow-y-auto custom-scrollbar pr-1">
+                                ${friendsChecklistHtml}
+                            </div>
+                        </div>
+
+                        <button onclick="window.handleCreateProject()" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-700 text-white text-xs font-orbitron font-bold rounded hover:brightness-115 transition-all shadow-lg tracking-widest mt-2">
+                            SPARK ACTIVE REPOSITORY
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        window.handleCreateProject = function() {
+            const name = document.getElementById("new-proj-name").value.trim();
+            const desc = document.getElementById("new-proj-desc").value.trim();
+            const vis = document.querySelector('input[name="proj-vis"]:checked').value;
+            
+            if (!name) { window.showToast("Declare registry repository designation.", "error"); return; }
+
+            const cleanId = 'PRJ-' + Math.floor(10000 + Math.random() * 90000);
+            const projectObj = {
+                id: cleanId, name: name, description: desc || "Core assembly system assets.", visibility: vis,
+                ownerId: activeProfile.socialId, ownerName: activeProfile.username,
+                files: [ 
+                    { name: "index.html", code: `<!DOCTYPE html>\n<html>\n<head>\n  <script src="https://cdn.tailwindcss.com"><\/script>\n</head>\n<body class="bg-[#05010a] text-white flex items-center justify-center h-screen overflow-y-auto">\n  <div class="p-6 rounded-2xl border border-yellow-500/20 bg-purple-950/10 text-center max-w-sm">\n    <h1 class="text-yellow-400 text-xl font-bold font-mono">${name.toUpperCase()}</h1>\n    <p class="text-purple-300 text-[10px] mt-2">Core staging layout successfully synchronized.</p>\n  </div>\n</body>\n</html>` },
+                    { name: "main.py", code: `# Assembly Python logic template\nprint("Connecting to module ${name}...")\ncores = 3\nfor i in range(cores):\n    print(f"Pinging active staging core {i}...")` }
+                ],
+                members: [{ socialId: activeProfile.socialId, username: activeProfile.username, role: "Leader" }]
+            };
+
+            activeProfile.projects.push(projectObj);
+            saveProfileData(activeProfile);
+            window.showToast(`Repository "${name}" compiled and initialized.`, "success");
+
+            const checkedFriends = document.querySelectorAll(".proj-friend-invite:checked");
+            checkedFriends.forEach(box => {
+                const targetId = box.value;
+                Object.values(inMemoryDb.profiles).forEach(p => {
+                    if (p.socialId === targetId) {
+                        if (!p.pendingInvites) p.pendingInvites = [];
+                        p.pendingInvites.push({ projectId: cleanId, projectName: name, fromName: activeProfile.username, fromSocialId: activeProfile.socialId });
+                        saveProfileData(p);
+                        window.addGlobalNotification(targetId, `${activeProfile.username} has invited you to collaborate inside [${name}] workspace.`);
+                    }
+                });
+            });
+
+            window.syncRepoSelectors();
+            window.renderProjectsSidebar();
+            window.openProjectRepo(cleanId);
+        };
+
+        window.openProjectRepo = function(projId) {
+            activeProjectViewId = projId;
+            window.renderProjectsSidebar();
+
+            const proj = activeProfile.projects.find(p => p.id === projId);
+            if (!proj) return;
+
+            const isOwner = proj.ownerId === activeProfile.socialId;
+
+            let filesHtml = '';
+            if (proj.files && proj.files.length > 0) {
+                proj.files.forEach((file, index) => {
+                    const ext = file.name.split('.').pop() || '';
+                    let fileIcon = '<i class="fa-regular fa-file text-yellow-500"></i>';
+                    if (ext === 'html') fileIcon = '<i class="fa-brands fa-html5 text-orange-500"></i>';
+                    if (ext === 'py') fileIcon = '<i class="fa-brands fa-python text-blue-400"></i>';
+                    if (ext === 'js') fileIcon = '<i class="fa-brands fa-js-square text-yellow-400"></i>';
+                    if (ext === 'css') fileIcon = '<i class="fa-brands fa-css3-alt text-teal-400"></i>';
+
+                    filesHtml += `
+                        <div class="flex items-center justify-between p-2 border-b border-purple-900/20 hover:bg-purple-950/20 transition-colors font-mono text-xs">
+                            <div class="flex items-center gap-2">
+                                ${fileIcon}
+                                <span class="text-purple-100">${file.name}</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-purple-400">
+                                ${isOwner ? `<button onclick="window.deleteRepoFile('${proj.id}', ${index})" class="text-purple-600 hover:text-red-400 transition-colors" title="Decompile file"><i class="fa-solid fa-trash-can text-[10px]"></i></button>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                filesHtml = `<div class="p-3 text-center text-[10px] font-mono text-purple-400 italic">No files staged inside active directory.</div>`;
+            }
+
+            let membersHtml = '';
+            proj.members.forEach(m => {
+                membersHtml += `<span class="bg-purple-900/30 border border-purple-800/40 text-[9px] text-white px-2 py-0.5 rounded font-mono mr-1 mb-1 inline-block">${m.username} <span class="text-yellow-400 font-bold">(${m.role})</span></span>`;
+            });
+
+            const mainArea = document.getElementById("prj-main-area");
+            mainArea.innerHTML = `
+                <div class="flex flex-col h-full relative overflow-y-auto">
+                    <div class="p-5 border-b border-purple-800/40 bg-purple-950/10 flex-shrink-0">
+                        <div class="flex justify-between items-start mb-1">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-cube text-yellow-400 text-xl animate-pulse"></i>
+                                <div>
+                                    <h2 class="font-orbitron font-bold text-base text-white">${proj.name}</h2>
+                                    <div class="text-[9px] font-mono text-purple-400 mt-0.5">Key ID: ${proj.id} | System Owner: ${proj.ownerName}</div>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[8px] font-mono border ${proj.visibility === 'Public' ? 'border-emerald-500/30 text-emerald-400' : 'border-red-500/30 text-red-400'}">${proj.visibility.toUpperCase()}</span>
+                        </div>
+                        <p class="text-[11px] text-purple-200 mt-2 font-mono overflow-y-auto custom-scrollbar">${proj.description}</p>
+                        <div class="mt-3 flex flex-wrap gap-1">
+                            ${membersHtml}
+                        </div>
+                        
+                        <div class="mt-4 p-4 rounded-xl bg-gradient-to-r from-yellow-500/10 to-purple-950/20 border border-yellow-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-orbitron font-bold text-xs text-yellow-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-play text-yellow-400"></i> WORKSPACE APP INTEGRATOR
+                                </h4>
+                                <p class="text-[9px] font-mono text-purple-300">Teleport directly to Non-Stop coding deck to compiled staging frame views and side diagnostic log consoles.</p>
+                            </div>
+                            <button onclick="window.launchAppCompiler('${proj.id}')" class="w-full sm:w-auto px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron font-bold text-xs rounded transition-all flex items-center justify-center gap-1">
+                                VIEW THE APP <i class="fa-solid fa-angle-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 flex-grow flex flex-col min-h-0">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-orbitron font-bold text-[10px] text-yellow-400 uppercase tracking-wider">File Explorer Direct Actions</span>
+                            ${isOwner ? `
+                                <button onclick="window.promptAddFile('${proj.id}')" class="px-2.5 py-1 bg-purple-900/60 hover:bg-purple-800 border border-purple-700/40 text-white text-[9px] font-orbitron font-bold rounded shadow transition-colors flex items-center gap-1">
+                                    <i class="fa-solid fa-file-circle-plus"></i> ADD STAGED ASSET
+                                </button>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow min-h-0">
+                            <!-- Directory tree files list -->
+                            <div class="bg-black/30 border border-purple-800/30 rounded-lg overflow-y-auto custom-scrollbar shadow-inner p-2 h-[150px] lg:h-auto">
+                                ${filesHtml}
+                            </div>
+                            <!-- Mini interactive console framework -->
+                            <div class="bg-black border border-purple-800/35 rounded-lg p-3 font-mono text-[10px] flex flex-col h-[150px] lg:h-auto">
+                                <div class="text-[9px] font-orbitron text-purple-400 mb-2 border-b border-purple-900/40 pb-1 flex justify-between items-center">
+                                    <span>SYSTEM INTEGRITY TERMINAL</span>
+                                    <span class="text-emerald-500 animate-pulse text-[8px]"><i class="fa-solid fa-circle"></i> CORE STATUS</span>
+                                </div>
+                                <div id="repo-terminal-logs-${proj.id}" class="flex-grow overflow-y-auto custom-scrollbar text-emerald-400 space-y-1 pr-1">
+                                    &gt; Mounting core staging address matrix for ${proj.name}...<br>
+                                    &gt; Directories: ${proj.files.length} active files logged.<br>
+                                    &gt; Pipeline stable. Type "help" to start diagnostic sequences.
+                                </div>
+                                <div class="mt-2 flex gap-1 bg-[#05010b] p-1 rounded border border-purple-800/30">
+                                    <span class="text-yellow-400 font-bold px-1">&gt;</span>
+                                    <input type="text" placeholder="Type command... (help, files, sync)" onkeydown="window.handleRepoTerminalInput(event, '${proj.id}')" class="flex-grow bg-transparent border-none text-[10px] text-white focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        window.handleRepoTerminalInput = function(e, projId) {
+            if (e.key === 'Enter') {
+                const inputVal = e.target.value.trim();
+                const logBox = document.getElementById(`repo-terminal-logs-${projId}`);
+                if (!inputVal || !logBox) return;
+
+                logBox.innerHTML += `<div class="text-yellow-400">&gt; ${inputVal}</div>`;
+                e.target.value = '';
+
+                const cmd = inputVal.toLowerCase();
+                if (cmd === 'help') {
+                    logBox.innerHTML += `
+                        <div class="text-purple-300">
+                          - help: Lists directory execution utility commands.<br>
+                          - files: Prints staged files list sizing.<br>
+                          - sync: Re-syncs workspace security state nodes.<br>
+                        </div>`;
+                } else if (cmd === 'files') {
+                    const proj = activeProfile.projects.find(p => p.id === projId);
+                    if (proj) {
+                        logBox.innerHTML += `<div class="text-white font-bold">Staged System Directory:</div>`;
+                        proj.files.forEach(f => {
+                            logBox.innerHTML += `<div class="text-purple-200"> * ${f.name} [Status: COMPILED]</div>`;
+                        });
+                    }
+                } else if (cmd === 'sync') {
+                    logBox.innerHTML += `<div class="text-emerald-400">Pipeline synchronized. Integrity verification nodes: CLEAR.</div>`;
+                } else {
+                    logBox.innerHTML += `<div class="text-red-400">Failed execution. Command unrecognized. Type "help" for metrics.</div>`;
+                }
+                logBox.scrollTop = logBox.scrollHeight;
+            }
+        };
+
+        window.promptAddFile = function(projId) {
+            const fileName = prompt("Name your staged system file (e.g. layout.html, core.py, scripts.js, styles.css):");
+            if (!fileName) return;
+
+            const proj = activeProfile.projects.find(p => p.id === projId);
+            if (proj) {
+                if(!proj.files) proj.files = [];
+                const ext = fileName.split('.').pop() || '';
+                let defaultCode = `// System staging module for ${fileName}`;
+                if (ext === 'py') defaultCode = `# Python module template\nprint("Active layout initiated.")`;
+                if (ext === 'html') defaultCode = `<!-- Web stage page -->\n<div class="p-4 bg-slate-900 rounded border border-purple-500/20 overflow-y-auto">\n  <h1 class="text-white text-base">Module: ${fileName}</h1>\n</div>`;
+
+                proj.files.push({ 
+                    name: fileName.trim(), 
+                    code: defaultCode
+                });
+                saveProfileData(activeProfile);
+                window.showToast(`Staging directory synced with file: ${fileName}`, "success");
+                window.openProjectRepo(projId);
+                window.syncRepoSelectors();
+            }
+        };
+
+        window.deleteRepoFile = function(projId, fileIndex) {
+            const proj = activeProfile.projects.find(p => p.id === projId);
+            if (proj && proj.files) {
+                const deletedName = proj.files[fileIndex].name;
+                proj.files.splice(fileIndex, 1);
+                saveProfileData(activeProfile);
+                window.showToast(`File "${deletedName}" removed from repository.`, "warning");
+                window.openProjectRepo(projId);
+            }
+        };
+
+        window.renderTeamsDashboard = function() {
+            const invitesContainer = document.getElementById("invites-list-container");
+            const teamsContainer = document.getElementById("teams-list-container");
+
+            invitesContainer.innerHTML = "";
+            teamsContainer.innerHTML = "";
+
+            if (!activeProfile.pendingInvites || activeProfile.pendingInvites.length === 0) {
+                invitesContainer.innerHTML = `<p class="text-[10px] text-purple-400 italic py-2 text-center">Invites quiet. Awaiting satellite links...</p>`;
+            } else {
+                activeProfile.pendingInvites.forEach((invite, idx) => {
+                    invitesContainer.innerHTML += `
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-purple-900/30 border border-purple-800/40 shadow-inner">
+                            <div class="font-mono text-[10px]">
+                                <span class="text-yellow-400 font-bold"><i class="fa-solid fa-satellite-dish mr-1"></i> ${invite.projectName}</span>
+                                <span class="text-purple-300"> proposal from </span>
+                                <span class="text-white underline">${invite.fromName}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="window.acceptInvite(${idx})" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 rounded text-[9px] text-white font-orbitron font-bold transition-all shadow">MERGE JOIN</button>
+                                <button onclick="window.rejectInvite(${idx})" class="px-3 py-1 bg-red-900 hover:bg-red-800 rounded text-[9px] text-white font-orbitron font-bold transition-all shadow">DISMISS</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            if (activeProfile.projects.length === 0) {
+                teamsContainer.innerHTML = `<p class="text-xs text-purple-400 italic py-6 col-span-2 text-center font-mono">Found active repositories inside the Projects Workspace to configure staging groups.</p>`;
+                return;
+            }
+
+            activeProfile.projects.forEach(proj => {
+                const isOwner = proj.ownerId === activeProfile.socialId;
+                let membersRosterHtml = "";
+                
+                proj.members.forEach(memb => {
+                    let positionSelectorHtml = "";
+                    if (isOwner && memb.socialId !== activeProfile.socialId) {
+                        positionSelectorHtml = `
+                            <select onchange="window.assignMemberRole('${proj.id}', '${memb.socialId}', this.value)" class="bg-[#05010b] border border-purple-800 rounded px-2 py-0.5 text-[9px] text-yellow-400 font-mono focus:outline-none cursor-pointer">
+                                <option value="Member" ${memb.role === 'Member' ? 'selected' : ''}>Member</option>
+                                <option value="Senior" ${memb.role === 'Senior' ? 'selected' : ''}>Senior</option>
+                                <option value="Major" ${memb.role === 'Major' ? 'selected' : ''}>Major</option>
+                                <option value="President" ${memb.role === 'President' ? 'selected' : ''}>President</option>
+                                <option value="Leader" ${memb.role === 'Leader' ? 'selected' : ''}>Leader</option>
+                            </select>
+                        `;
+                    } else {
+                        const badgeColors = { "Leader": "text-red-400", "President": "text-yellow-400", "Major": "text-purple-400", "Senior": "text-blue-400", "Member": "text-slate-300" };
+                        positionSelectorHtml = `<span class="px-2 py-0.5 rounded text-[8px] font-mono border border-purple-800 bg-black/40 ${badgeColors[memb.role]}">${memb.role.toUpperCase()}</span>`;
+                    }
+
+                    membersRosterHtml += `
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 bg-purple-950/20 rounded border border-purple-800/20 gap-2 mb-1.5">
+                            <span class="font-mono text-white text-xs">${memb.username} <span class="text-[9px] text-purple-400">(${memb.socialId})</span></span>
+                            ${positionSelectorHtml}
+                        </div>
+                    `;
+                });
+
+                teamsContainer.innerHTML += `
+                    <div class="bg-[#0d071b] border border-purple-800/30 rounded-xl p-4 shadow-lg flex flex-col h-full">
+                        <div class="border-b border-purple-800/40 pb-3 mb-3 flex items-center justify-between">
+                            <h5 class="text-xs font-orbitron font-bold text-yellow-400 truncate"><i class="fa-solid fa-code-merge mr-1.5"></i>${proj.name}</h5>
+                            <button onclick="window.launchAppCompiler('${proj.id}')" class="px-2.5 py-1 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron font-bold text-[9px] rounded shadow transition-all">VIEW APP</button>
+                        </div>
+                        <div class="space-y-1 flex-grow overflow-y-auto custom-scrollbar pr-1 max-h-40">
+                            ${membersRosterHtml}
+                        </div>
+                    </div>
+                `;
+            });
+        };
+
+        window.acceptInvite = function(index) {
+            const invite = activeProfile.pendingInvites[index];
+            let ownerProf = null;
+            Object.values(inMemoryDb.profiles).forEach(p => { if (p.socialId === invite.fromSocialId) ownerProf = p; });
+
+            if (ownerProf) {
+                const proj = ownerProf.projects.find(p => p.id === invite.projectId);
+                if (proj) {
+                    if (!proj.members.some(m => m.socialId === activeProfile.socialId)) {
+                        proj.members.push({ socialId: activeProfile.socialId, username: activeProfile.username, role: "Member" });
+                    }
+                    if (!activeProfile.projects.some(p => p.id === proj.id)) activeProfile.projects.push(proj);
+                    saveProfileData(ownerProf);
+                    window.addGlobalNotification(ownerProf.socialId, `${activeProfile.username} has joined project grid [${proj.name}].`);
+                }
+            }
+
+            activeProfile.pendingInvites.splice(index, 1);
+            saveProfileData(activeProfile);
+            window.showToast(`Merged into joint staging layout: ${invite.projectName}`, "success");
+            window.renderTeamsDashboard();
+            window.syncRepoSelectors();
+        };
+
+        window.rejectInvite = function(index) {
+            activeProfile.pendingInvites.splice(index, 1);
+            saveProfileData(activeProfile);
+            window.showToast("Project alignment proposal declined.", "warning");
+            window.renderTeamsDashboard();
+        };
+
+        window.assignMemberRole = function(projectId, memberSocialId, newRole) {
+            const proj = activeProfile.projects.find(p => p.id === projectId);
+            if (proj) {
+                const member = proj.members.find(m => m.socialId === memberSocialId);
+                if (member) member.role = newRole;
+                saveProfileData(activeProfile);
+            }
+            
+            Object.values(inMemoryDb.profiles).forEach(p => {
+                if (p.socialId === memberSocialId) {
+                    const globalProj = p.projects.find(gp => gp.id === projectId);
+                    if (globalProj) {
+                        const m = globalProj.members.find(gm => gm.socialId === memberSocialId);
+                        if (m) m.role = newRole;
+                        saveProfileData(p);
+                    }
+                }
+            });
+            
+            window.addGlobalNotification(memberSocialId, `Your role credentials in workspace ${proj.name} have been updated to: [${newRole.toUpperCase()}].`);
+            window.showToast(`Role permissions successfully saved.`, "success");
+        };
+
+        window.handleAddFriendSubmit = function() {
+            const idToSearch = document.getElementById("add-friend-id-input").value.trim().toUpperCase();
+            if (!idToSearch) return window.showToast("Enter a verified Associate Instance Key.", "error");
+            if (idToSearch === activeProfile.socialId) return window.showToast("Loop alignment bypassed. Cannot align with self.", "error");
+            if (activeProfile.friends.includes(idToSearch)) return window.showToast("Instance linkage already mapped.", "warning");
+
+            const friendProf = Object.values(inMemoryDb.profiles).find(p => p.socialId === idToSearch);
+            if (friendProf) {
+                activeProfile.friends.push(idToSearch);
+                document.getElementById("add-friend-id-input").value = "";
+                saveProfileData(activeProfile);
+                window.showToast(`Instance link successfully locked with ${friendProf.username}`, "success");
+                window.addGlobalNotification(idToSearch, `${activeProfile.username} linked your profile identifier to their network directory.`);
+                window.renderFriendsList();
+            } else window.showToast("Instance identifier not found inside network directories.", "error");
+        };
+
+        window.renderFriendsList = function() {
+            const container = document.getElementById("friends-list-container");
+            container.innerHTML = "";
+            if (activeProfile.friends.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-purple-400 italic py-6 bg-black/30 rounded-lg border border-purple-800/30 font-mono text-xs">Verify associate keys above to establish real-time syncing profiles.</div>`;
+                return;
+            }
+
+            activeProfile.friends.forEach(fId => {
+                const fProf = Object.values(inMemoryDb.profiles).find(p => p.socialId === fId);
+                if (!fProf) return;
+
+                container.innerHTML += `
+                    <div class="flex items-center justify-between p-3.5 bg-gradient-to-r from-purple-900/10 to-[#05010b] border border-purple-800/30 rounded-xl cursor-pointer hover:border-yellow-400/40 transition-all" onclick="window.inspectOperative('${fProf.socialId}')">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 shape-decagon ${fProf.avatarColor} flex items-center justify-center text-base border border-purple-500/20">
+                                ${fProf.avatarIcon}
+                            </div>
+                            <div>
+                                <h5 class="font-orbitron font-bold text-xs text-white">${fProf.username}</h5>
+                                <span class="text-[9px] font-mono text-yellow-400">${fProf.socialId}</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-angle-right text-purple-500 text-xs"></i>
+                    </div>
+                `;
+            });
+        };
+
+        const SYSTEM_QUESTS = [
+            { id: "TRY-01", title: "Scale Matrix Decagons", xp: 60, desc: "Recalibrate dimensional clipping coordinates inside responsive canvas nodes.", status: "Active" },
+            { id: "TRY-02", title: "Dual Sandboxing Routing", xp: 80, desc: "Execute multi-engine evaluation blocks on virtual sandbox threads.", status: "Active" },
+            { id: "TRY-03", title: "Stage hot Reload Frames", xp: 110, desc: "Configure direct telemetry updates inside the live viewport browser iframe.", status: "Active" }
+        ];
+
+        window.renderQuestsDashboard = function() {
+            const container = document.getElementById("quests-container");
+            if (!container) return;
+
+            container.innerHTML = "";
+            SYSTEM_QUESTS.forEach(quest => {
+                const div = document.createElement("div");
+                div.className = "p-3.5 rounded-lg bg-purple-900/10 border border-purple-800/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shadow-md";
+                div.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[8px] font-mono text-yellow-400 bg-yellow-950 px-1.5 py-0.5 rounded border border-yellow-500/20">${quest.id}</span>
+                            <span class="font-orbitron font-bold text-xs text-white uppercase">${quest.title}</span>
+                        </div>
+                        <p class="text-[11px] text-purple-300 font-mono">${quest.desc}</p>
+                    </div>
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                        <span class="text-[10px] font-bold text-yellow-400 font-mono">+${quest.xp} XP</span>
+                        <button onclick="window.completeQuest('${quest.id}', ${quest.xp})" class="px-3 py-1.5 bg-purple-900/60 hover:bg-yellow-500 hover:text-purple-950 rounded text-[9px] font-orbitron font-bold transition-all uppercase">COMPLETE</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        };
+
+        window.renderLinks = function() {
+            const container = document.getElementById("links-container");
+            const links = [
+                { title: "Direct Compiler Grid", icon: "fa-code", desc: "Evaluate raw code trees inside our dual-engine interpreter sandboxes." },
+                { title: "Corporate Realmes Office", icon: "fa-building", desc: "Organize development entities and approve member repository tagging." },
+                { title: "Synced System Logs", icon: "fa-list-check", desc: "Monitor multi-threaded execution runtimes across local profiles." }
+            ];
+
+            container.innerHTML = "";
+            links.forEach(l => {
+                container.innerHTML += `
+                    <div class="p-4 bg-[#05010b] border border-purple-800/30 rounded-xl hover:border-yellow-400/30 transition-all cursor-pointer shadow-lg">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid ${l.icon} text-yellow-400 text-xs"></i>
+                            <span class="font-orbitron font-bold text-xs text-white uppercase">${l.title}</span>
+                        </div>
+                        <p class="text-[11px] text-purple-300 mt-2 font-mono">${l.desc}</p>
+                    </div>
+                `;
+            });
+        };
+
+        window.inspectOperative = function(socialId) {
+            const prof = Object.values(inMemoryDb.profiles).find(p => p.socialId === socialId);
+            if (!prof) return;
+
+            document.getElementById("uim-avatar-div").className = `w-12 h-12 shape-decagon ${prof.avatarColor} flex items-center justify-center text-xl border border-yellow-400/20`;
+            document.getElementById("uim-avatar-div").innerHTML = prof.avatarIcon;
+            document.getElementById("uim-name").textContent = prof.username;
+            document.getElementById("uim-social-id").textContent = `Instance Key: ${prof.socialId}`;
+            document.getElementById("uim-bio").textContent = prof.bio;
+
+            const langsDiv = document.getElementById("uim-languages");
+            langsDiv.innerHTML = "";
+            prof.languages.split(",").forEach(l => {
+                if(l.trim()) langsDiv.innerHTML += `<span class="text-[9px] font-mono bg-black/40 text-yellow-400 px-2 py-0.5 rounded border border-purple-800/30">${l.trim()}</span>`;
+            });
+
+            document.getElementById("user-inspect-modal").classList.remove("hidden");
+        };
+        window.closeUserInspectModal = () => document.getElementById("user-inspect-modal").classList.add("hidden");
+
+
+        window.renderRealmeDashboard = function() {
+            const container = document.getElementById("realme-dynamic-container");
+            container.innerHTML = "";
+
+            if (activeProfile.realmeId && inMemoryDb.realmes[activeProfile.realmeId]) {
+                const realm = inMemoryDb.realmes[activeProfile.realmeId];
+                const myMemberData = realm.members.find(m => m.socialId === activeProfile.socialId);
+                const isGodCodee = myMemberData && myMemberData.role === "God-Codee";
+
+                let membersHtml = "";
+                realm.members.forEach(m => {
+                    let roleSelector = "";
+                    if (isGodCodee && m.socialId !== activeProfile.socialId) {
+                        roleSelector = `
+                            <select onchange="window.updateRealmeRole('${m.socialId}', this.value)" class="bg-[#05010b] border border-purple-800 rounded px-2 py-0.5 text-[9px] text-yellow-400 font-mono focus:outline-none cursor-pointer">
+                                <option value="Code-Member" ${m.role === 'Code-Member' ? 'selected' : ''}>Code-Member</option>
+                                <option value="Ninja" ${m.role === 'Ninja' ? 'selected' : ''}>Ninja</option>
+                                <option value="Striker" ${m.role === 'Striker' ? 'selected' : ''}>Striker</option>
+                                <option value="God-Codee" ${m.role === 'God-Codee' ? 'selected' : ''}>God-Codee</option>
+                            </select>
+                        `;
+                    } else {
+                        const roleColors = {
+                            "God-Codee": "text-red-400 border-red-500/30 bg-red-950/20",
+                            "Ninja": "text-yellow-400 border-yellow-500/30 bg-yellow-950/20",
+                            "Striker": "text-blue-400 border-blue-500/30 bg-blue-950/20",
+                            "Code-Member": "text-slate-300 border-slate-500/30 bg-slate-950/20"
+                        };
+                        roleSelector = `<span class="px-2 py-0.5 rounded border text-[8px] font-mono shadow-sm ${roleColors[m.role] || roleColors["Code-Member"]}">${m.role.toUpperCase()}</span>`;
+                    }
+
+                    membersHtml += `
+                        <div class="flex items-center justify-between p-3 border-b border-purple-900/20 hover:bg-purple-900/10 transition-colors">
+                            <span class="font-mono text-xs text-white">${m.username} <span class="text-[9px] text-purple-400/60 ml-1">(${m.socialId})</span></span>
+                            ${roleSelector}
+                        </div>
+                    `;
+                });
+
+                let pendingSectionHtml = "";
+                if (isGodCodee) {
+                    let submittedRows = "";
+                    if (realm.submittedRepos.length === 0) {
+                        submittedRows = `<div class="p-6 text-center text-purple-400 italic text-[11px] font-mono bg-black/20 rounded-xl border border-purple-900/20">No repository proposals awaiting review.</div>`;
+                    } else {
+                        realm.submittedRepos.forEach((subRepo) => {
+                            submittedRows += `
+                                <div class="p-4 bg-purple-950/20 border border-purple-800/40 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-sm font-orbitron font-bold text-yellow-400"><i class="fa-solid fa-code-pull-request mr-1"></i> ${subRepo.name}</span>
+                                        </div>
+                                        <p class="text-[10px] text-purple-300 font-mono">Proposed by: <span class="text-white">${subRepo.authorName}</span> | Files: ${subRepo.files.length}</p>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="window.approveTaggedRepo('${subRepo.id}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-orbitron font-bold rounded transition-all shadow-md">
+                                            <i class="fa-solid fa-check mr-1"></i> ACCEPT
+                                        </button>
+                                        <button onclick="window.rejectTaggedRepo('${subRepo.id}')" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white text-[10px] font-orbitron font-bold rounded transition-all shadow-md">
+                                            <i class="fa-solid fa-xmark mr-1"></i> REJECT
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    pendingSectionHtml = `
+                        <div class="mb-6">
+                            <h4 class="font-orbitron font-bold text-xs text-yellow-400 flex items-center gap-2 mb-3 px-1 uppercase tracking-wider">
+                                <i class="fa-solid fa-inbox text-yellow-500"></i> Admin Review Queue
+                            </h4>
+                            <div class="space-y-3">
+                                ${submittedRows}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let approvedRowsHtml = "";
+                if (!realm.approvedRepos || realm.approvedRepos.length === 0) {
+                    approvedRowsHtml = `<div class="p-8 text-center text-purple-400 italic text-xs font-mono border border-purple-800/20 rounded-xl bg-black/30 shadow-inner">No official repositories established yet.</div>`;
+                } else {
+                    realm.approvedRepos.forEach((appRepo) => {
+                        approvedRowsHtml += `
+                            <div class="p-5 bg-gradient-to-r from-purple-950/30 to-[#0a0413] border border-emerald-500/30 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-emerald-400/50 transition-colors shadow-md group">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-1.5">
+                                        <div class="w-8 h-8 rounded bg-emerald-950/50 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                                            <i class="fa-solid fa-server"></i>
+                                        </div>
+                                        <h4 class="text-sm font-orbitron font-bold text-white group-hover:text-emerald-400 transition-colors">${appRepo.name}</h4>
+                                        <span class="text-[8px] font-mono bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30 uppercase tracking-widest">Official</span>
+                                    </div>
+                                    <p class="text-[10px] text-purple-300 font-mono pl-11">Contributed by: ${appRepo.authorName} | Key: ${appRepo.projectId}</p>
+                                </div>
+                                <button onclick="window.launchAppCompiler('${appRepo.projectId}')" class="w-full sm:w-auto px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron text-[10px] font-bold rounded shadow-lg transition-all tracking-wider">
+                                    <i class="fa-solid fa-code mr-1"></i> OPEN IN IDE
+                                </button>
+                            </div>
+                        `;
+                    });
+                }
+
+                let userTaggingModuleHtml = "";
+                let userReposOptionHtml = "";
+                if (activeProfile.projects.length === 0) {
+                    userReposOptionHtml = `<option value="">No local repositories available</option>`;
+                } else {
+                    activeProfile.projects.forEach(p => {
+                        userReposOptionHtml += `<option value="${p.id}">${p.name}</option>`;
+                    });
+                }
+
+                userTaggingModuleHtml = `
+                    <div class="bg-black/40 p-5 rounded-xl border border-purple-800/40 shadow-inner flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+                        <div>
+                            <h4 class="font-orbitron font-bold text-xs text-yellow-400 tracking-wider"><i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> PROPOSE REPOSITORY TO REALME</h4>
+                            <p class="text-[10px] text-purple-300 mt-1.5 font-mono max-w-md">Select one of your local staging directories to submit for God-Codee approval. Once accepted, it becomes an official organization asset.</p>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <select id="member-repo-tag-select" class="bg-[#05010b] border border-purple-700/50 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-yellow-400 shadow-inner min-w-[180px]">
+                                ${userReposOptionHtml}
+                            </select>
+                            <button onclick="window.submitRepoToRealme()" class="px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:brightness-115 text-white text-xs font-orbitron font-bold rounded-lg transition-all shadow-md whitespace-nowrap">
+                                SUBMIT
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML = `
+                    <div class="flex flex-col lg:flex-row gap-8 flex-grow min-h-0 overflow-y-auto lg:overflow-hidden custom-scrollbar py-2">
+                        <!-- Left Panel: Organization Identity & Roster -->
+                        <div class="w-full lg:w-1/3 flex flex-col space-y-6 flex-shrink-0 lg:overflow-y-auto custom-scrollbar">
+                            
+                            <!-- Realme Header Card -->
+                            <div class="bg-gradient-to-br from-purple-900/40 to-[#0a0413] p-6 rounded-2xl border border-purple-600/30 shadow-2xl relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500/5 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                                <div class="text-[9px] text-yellow-400/80 font-orbitron tracking-widest uppercase mb-2 flex items-center gap-2">
+                                    <i class="fa-solid fa-building-shield"></i> Corporate Matrix
+                                </div>
+                                <h3 class="font-orbitron font-bold text-2xl text-white truncate mb-2 drop-shadow-md">${realm.name}</h3>
+                                <div class="text-[10px] font-mono text-purple-300 bg-black/40 inline-block px-2.5 py-1 rounded border border-purple-800/50">Registry: ${realm.id}</div>
+                                
+                                ${isGodCodee ? `
+                                    <div class="mt-6 pt-5 border-t border-purple-800/40">
+                                        <label class="block text-[9px] font-orbitron text-purple-200 tracking-wider mb-2">RECRUIT OPERATIVE</label>
+                                        <div class="flex gap-2">
+                                            <input type="text" id="realme-invite-input" placeholder="Instance Key (e.g. NSP-...)" class="flex-grow bg-black/50 border border-purple-700/50 rounded p-2 text-xs text-yellow-400 font-mono focus:outline-none focus:border-yellow-400 uppercase tracking-wider">
+                                            <button onclick="window.sendRealmeInvite()" class="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-purple-950 font-orbitron font-bold text-[10px] rounded transition-all shadow-md">INVITE</button>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <!-- Roster Panel -->
+                            <div class="bg-[#0c0719] border border-purple-800/30 rounded-2xl flex-grow overflow-hidden flex flex-col shadow-xl">
+                                <div class="p-4 border-b border-purple-800/40 bg-purple-950/20">
+                                    <span class="font-orbitron font-bold text-[11px] text-purple-200 tracking-widest uppercase flex items-center gap-2">
+                                        <i class="fa-solid fa-users text-purple-400"></i> Active Personnel
+                                    </span>
+                                </div>
+                                <div class="flex-grow overflow-y-auto custom-scrollbar p-2">
+                                    ${membersHtml}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Repositories & Workflow -->
+                        <div class="w-full lg:w-2/3 flex flex-col lg:overflow-y-auto custom-scrollbar pb-4 pr-2">
+                            ${userTaggingModuleHtml}
+                            ${pendingSectionHtml}
+
+                            <div class="flex-grow flex flex-col">
+                                <h4 class="font-orbitron font-bold text-sm text-white mb-4 uppercase tracking-wider flex items-center gap-2 px-1 border-b border-purple-900/50 pb-2">
+                                    <i class="fa-solid fa-vault text-emerald-500"></i> Official Verified Repositories
+                                </h4>
+                                <div class="space-y-4 overflow-y-auto custom-scrollbar pb-4">
+                                    ${approvedRowsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let pendingInvitesHtml = "";
+            if (activeProfile.realmeInvites && activeProfile.realmeInvites.length > 0) {
+                let inviteList = "";
+                activeProfile.realmeInvites.forEach((inv, idx) => {
+                    inviteList += `
+                        <div class="flex items-center justify-between p-4 bg-purple-950/30 border border-purple-700/50 rounded-xl mb-3 shadow-md hover:bg-purple-900/40 transition-colors">
+                            <div>
+                                <div class="font-orbitron font-bold text-sm text-yellow-400 uppercase tracking-wider mb-1">${inv.realmeName}</div>
+                                <div class="text-[10px] font-mono text-purple-300">Invited by God-Codee: <span class="text-white">${inv.fromName}</span></div>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="window.acceptRealmeInvite(${idx})" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs font-orbitron rounded shadow-md transition-all">JOIN</button>
+                                <button onclick="window.rejectRealmeInvite(${idx})" class="px-5 py-2 bg-red-900 hover:bg-red-800 text-white font-bold text-xs font-orbitron rounded shadow-md transition-all">DISMISS</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                pendingInvitesHtml = `
+                    <div class="mb-8 p-6 bg-[#0c0719] border border-yellow-500/30 rounded-2xl shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-yellow-500/10 blur-2xl rounded-full"></div>
+                        <h4 class="font-orbitron font-bold text-sm text-yellow-400 mb-4 tracking-wider"><i class="fa-solid fa-envelope-open-text mr-2"></i> PENDING ALIGNMENT OFFERS</h4>
+                        ${inviteList}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="max-w-3xl mx-auto w-full pt-6 pb-12">
+                    ${pendingInvitesHtml}
+                    
+                    <div class="bg-gradient-to-b from-purple-950/40 to-[#05010a] p-8 md:p-10 rounded-3xl border border-purple-800/40 text-center shadow-[0_0_40px_rgba(147,51,234,0.15)] relative">
+                        <i class="fa-solid fa-building-shield text-5xl text-purple-400 mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]"></i>
+                        <h4 class="font-orbitron font-bold text-2xl text-white tracking-widest font-black uppercase mb-3">Found an Enterprise Realme</h4>
+                        <p class="text-sm text-purple-200/80 font-mono leading-relaxed max-w-xl mx-auto mb-8">Establish a secure organizational hub. Recruit operatives, review their staging directories, and curate a master suite of official verified repositories.</p>
+                        
+                        <div class="text-left bg-black/40 p-6 rounded-2xl border border-purple-800/40 shadow-inner max-w-lg mx-auto">
+                            <label class="block text-[11px] text-yellow-400 font-orbitron tracking-widest mb-3">ORGANIZATION REGISTRY NAME</label>
+                            <input type="text" id="realme-name-input" placeholder="e.g. Hexagon Core Systems" class="w-full bg-[#080312] border border-purple-700/60 rounded-xl p-4 text-sm text-white font-mono focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 transition-all mb-5 tracking-wider">
+                            
+                            <label class="flex items-start gap-3 cursor-pointer group">
+                                <input type="checkbox" id="realme-tos-check" class="mt-1 accent-yellow-400 w-4 h-4">
+                                <span class="text-[11px] text-purple-300 font-mono leading-relaxed transition-colors group-hover:text-purple-100">I confirm the initialization of a primary organizational node. God-Codee access privileges will be bound to this profile.</span>
+                            </label>
+                        </div>
+                        
+                        <button onclick="window.createRealmeWorkspace()" class="max-w-lg mx-auto w-full py-4 mt-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-orbitron font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] tracking-widest flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bolt"></i> INITIALIZE ENTERPRISE
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        window.createRealmeWorkspace = function() {
+            const name = document.getElementById("realme-name-input").value.trim();
+            const checked = document.getElementById("realme-tos-check").checked;
+
+            if (!name) return window.showToast("Enter organizational registry name.", "error");
+            if (!checked) return window.showToast("Verify organization setup confirmation.", "error");
+
+            const realmeId = 'RLM-' + Math.floor(10000 + Math.random() * 90000);
+            
+            const newRealm = {
+                id: realmeId,
+                name: name,
+                ownerId: activeProfile.socialId,
+                members: [{ socialId: activeProfile.socialId, username: activeProfile.username, role: "God-Codee" }],
+                submittedRepos: [],
+                approvedRepos: []
+            };
+
+            activeProfile.realmeId = realmeId;
+            inMemoryDb.realmes[realmeId] = newRealm;
+            
+            saveRealmeData(newRealm);
+            saveProfileData(activeProfile);
+
+            window.showToast(`Realme organizational matrix [${name}] created.`, "success");
+            window.renderRealmeDashboard();
+            window.syncRepoSelectors();
+        };
+
+        window.sendRealmeInvite = function() {
+            const input = document.getElementById("realme-invite-input");
+            const targetId = input.value.trim().toUpperCase();
+            if (!targetId) return window.showToast("Invalid identifier context.", "error");
+
+            const realm = inMemoryDb.realmes[activeProfile.realmeId];
+            if (realm.members.some(m => m.socialId === targetId)) return window.showToast("Associate has already aligned with organization.", "warning");
+
+            let found = false;
+            Object.values(inMemoryDb.profiles).forEach(p => {
+                if (p.socialId === targetId) {
+                    found = true;
+                    if (!p.realmeInvites) p.realmeInvites = [];
+                    if (!p.realmeInvites.some(inv => inv.realmeId === realm.id)) {
+                        p.realmeInvites.push({ realmeId: realm.id, realmeName: realm.name, fromName: activeProfile.username });
+                        saveProfileData(p);
+                        window.addGlobalNotification(targetId, `You have received a corporate alignment proposal to join Realme organizational node [${realm.name}].`);
+                        window.showToast(`Recruitment invitation dispatched to ${p.username}.`, "success");
+                    } else {
+                        window.showToast("Invitation already aligned to this key.", "warning");
+                    }
+                }
+            });
+
+            if (!found) window.showToast("Target user identity key not found.", "error");
+            input.value = "";
+        };
+
+        window.acceptRealmeInvite = function(idx) {
+            const invite = activeProfile.realmeInvites[idx];
+            const realm = inMemoryDb.realmes[invite.realmeId];
+            
+            if (realm) {
+                if (!realm.members.some(m => m.socialId === activeProfile.socialId)) {
+                    realm.members.push({ socialId: activeProfile.socialId, username: activeProfile.username, role: "Code-Member" });
+                    saveRealmeData(realm);
+                }
+                activeProfile.realmeId = realm.id;
+                window.addGlobalNotification(realm.ownerId, `${activeProfile.username} has joined your organization [${realm.name}].`);
+                window.showToast(`Credential alignment to Realme [${realm.name}] successful.`, "success");
+            } else {
+                window.showToast("The corporate node has expired or dissolved.", "error");
+            }
+            
+            activeProfile.realmeInvites.splice(idx, 1);
+            saveProfileData(activeProfile);
+            window.renderRealmeDashboard();
+            window.syncRepoSelectors();
+        };
+
+        window.rejectRealmeInvite = function(idx) {
+            activeProfile.realmeInvites.splice(idx, 1);
+            saveProfileData(activeProfile);
+            window.showToast("Recruitment invitation dismissed.", "warning");
+            window.renderRealmeDashboard();
+        };
+
+        window.updateRealmeRole = function(memberSocialId, newRole) {
+            const realm = inMemoryDb.realmes[activeProfile.realmeId];
+            if (!realm) return;
+
+            const member = realm.members.find(m => m.socialId === memberSocialId);
+            if (member) {
+                member.role = newRole;
+                saveRealmeData(realm);
+                window.addGlobalNotification(memberSocialId, `Your corporate credential in ${realm.name} has been updated to [${newRole.toUpperCase()}].`);
+                window.showToast(`Member rank finalized to ${newRole}.`, "success");
+            }
+        };
+
+        window.submitRepoToRealme = function() {
+            const select = document.getElementById("member-repo-tag-select");
+            const projId = select.value;
+            if(!projId) return window.showToast("No valid project selected to tag.", "error");
+
+            const realm = inMemoryDb.realmes[activeProfile.realmeId];
+            if(!realm) return window.showToast("No active Realme office alignment mapped.", "error");
+
+            const proj = activeProfile.projects.find(p => p.id === projId);
+            if(!proj) return window.showToast("Selected project file mismatch.", "error");
+
+            if (realm.submittedRepos && realm.submittedRepos.some(r => r.projectId === projId)) {
+                return window.showToast("This repository tag is already awaiting validation.", "warning");
+            }
+            if (realm.approvedRepos && realm.approvedRepos.some(r => r.projectId === projId)) {
+                return window.showToast("This repository is already an official Realme asset.", "warning");
+            }
+
+            const submissionObj = {
+                id: 'SUB-' + Math.floor(1000 + Math.random() * 9000),
+                projectId: proj.id,
+                name: proj.name,
+                authorId: activeProfile.socialId,
+                authorName: activeProfile.username,
+                files: JSON.parse(JSON.stringify(proj.files)),
+                submittedAt: Date.now()
+            };
+
+            if(!realm.submittedRepos) realm.submittedRepos = [];
+            realm.submittedRepos.push(submissionObj);
+            saveRealmeData(realm);
+
+            window.showToast(`Repository "${proj.name}" tagged and pushed to God-Codee console.`, "success");
+            window.addGlobalNotification(realm.ownerId, `Member ${activeProfile.username} has submitted repository [${proj.name}] for approval review.`);
+            window.renderRealmeDashboard();
+        };
+
+        window.approveTaggedRepo = function(submissionId) {
+            const realm = inMemoryDb.realmes[activeProfile.realmeId];
+            if (!realm) return;
+
+            const subRepoIndex = realm.submittedRepos.findIndex(r => r.id === submissionId);
+            if (subRepoIndex !== -1) {
+                const subRepo = realm.submittedRepos[subRepoIndex];
+                
+                if (!realm.approvedRepos) realm.approvedRepos = [];
+                realm.approvedRepos.push(subRepo);
+                realm.submittedRepos.splice(subRepoIndex, 1);
+
+                saveRealmeData(realm);
+                window.showToast(`Repository "${subRepo.name}" officially verified and added to Realme.`, "success");
+                window.addGlobalNotification(subRepo.authorId, `Your tagged repository [${subRepo.name}] was approved and made official by the God-Codee.`);
+                window.renderRealmeDashboard();
+                window.syncRepoSelectors();
+            }
+        };
+
+        window.rejectTaggedRepo = function(submissionId) {
+            const realm = inMemoryDb.realmes[activeProfile.realmeId];
+            if (!realm) return;
+
+            const subRepoIndex = realm.submittedRepos.findIndex(r => r.id === submissionId);
+            if (subRepoIndex !== -1) {
+                const subRepo = realm.submittedRepos[subRepoIndex];
+                realm.submittedRepos.splice(subRepoIndex, 1);
+                
+                saveRealmeData(realm);
+                window.showToast(`Repository proposal "${subRepo.name}" was rejected.`, "warning");
+                window.addGlobalNotification(subRepo.authorId, `Your tagged repository proposal [${subRepo.name}] was dismissed by the God-Codee.`);
+                window.renderRealmeDashboard();
+            }
+        };
+
+        window.launchAppCompiler = function(projId) {
+            window.openFeature('NON-STOP COMPILER', 'Evaluate standard file trees with responsive dual engine.', false, 'coding');
+            const selector = document.getElementById("sandbox-repo-selector");
+            if (selector) {
+                selector.value = projId;
+                window.switchSandboxRepoContext(projId);
+            }
+        }
+
+        window.getActiveSandboxFiles = function() {
+            if (currentSandboxRepoKey === 'sandbox') {
+                return currentSandboxFileList;
+            } else {
+                let proj = activeProfile.projects.find(p => p.id === currentSandboxRepoKey);
+                if (!proj && activeProfile.realmeId && inMemoryDb.realmes[activeProfile.realmeId]) {
+                    const realm = inMemoryDb.realmes[activeProfile.realmeId];
+                    if (realm.approvedRepos) {
+                        proj = realm.approvedRepos.find(r => r.projectId === currentSandboxRepoKey);
+                    }
+                }
+                return proj ? proj.files : [];
+            }
+        };
+
+        window.switchSandboxRepoContext = function(val) {
+            currentSandboxRepoKey = val;
+            currentSandboxFileIndex = 0;
+            window.loadSandboxWorkspace();
+        };
+
+        window.loadSandboxWorkspace = function() {
+            const explorer = document.getElementById("compiler-file-list");
+            const badge = document.getElementById("compiler-project-badge");
+            const activeFiles = window.getActiveSandboxFiles();
+
+            explorer.innerHTML = "";
+            badge.innerText = currentSandboxRepoKey.toUpperCase();
+
+            if (activeFiles.length === 0) {
+                explorer.innerHTML = `<div class="text-[9px] text-purple-400 italic p-2">Staging folder is empty.</div>`;
+                document.getElementById("sandbox-textarea").value = "";
+                document.getElementById("current-sandbox-filename").innerText = "None";
+                return;
+            }
+
+            activeFiles.forEach((file, index) => {
+                const isActive = index === currentSandboxFileIndex;
+                const ext = file.name.split('.').pop() || '';
+                let extIcon = '<i class="fa-regular fa-file text-yellow-500"></i>';
+                if (ext === 'html') extIcon = '<i class="fa-brands fa-html5 text-orange-500"></i>';
+                if (ext === 'py') extIcon = '<i class="fa-brands fa-python text-blue-400"></i>';
+                if (ext === 'js') extIcon = '<i class="fa-brands fa-js-square text-yellow-400"></i>';
+                if (ext === 'css') extIcon = '<i class="fa-brands fa-css3-alt text-teal-400"></i>';
+
+                explorer.innerHTML += `
+                    <button onclick="window.selectSandboxFile(${index})" class="w-full flex items-center justify-between p-2 rounded transition-all border ${isActive ? 'bg-purple-900/40 border-yellow-500/40 text-white font-bold' : 'bg-black/30 border-purple-950 text-purple-300 hover:text-white'} font-mono text-left">
+                        <span class="truncate flex items-center gap-2">${extIcon} ${file.name}</span>
+                    </button>
+                `;
+            });
+
+            const activeFile = activeFiles[currentSandboxFileIndex];
+            if (activeFile) {
+                document.getElementById("current-sandbox-filename").innerText = activeFile.name;
+                document.getElementById("sandbox-textarea").value = activeFile.code;
+                
+                const ext = activeFile.name.split('.').pop() || '';
+                const engineSelect = document.getElementById("sandbox-engine-type");
+                if (ext === 'py') {
+                    engineSelect.value = 'python';
+                } else {
+                    engineSelect.value = 'web';
+                }
+                window.toggleEngineType(engineSelect.value);
+            }
+        };
+
+        window.selectSandboxFile = function(index) {
+            const currentCode = document.getElementById("sandbox-textarea").value;
+            const activeFiles = window.getActiveSandboxFiles();
+            if (activeFiles[currentSandboxFileIndex]) {
+                activeFiles[currentSandboxFileIndex].code = currentCode;
+                // Auto save project updates back to DB if it's a local project
+                if (currentSandboxRepoKey !== 'sandbox' && activeProfile.projects.find(p=>p.id === currentSandboxRepoKey)) {
+                     saveProfileData(activeProfile);
+                }
+            }
+
+            currentSandboxFileIndex = index;
+            window.loadSandboxWorkspace();
+        };
+
+        window.addSandboxFilePrompt = function() {
+            const fileName = prompt("Staged filename designation:");
+            if (!fileName) return;
+
+            const activeFiles = window.getActiveSandboxFiles();
+            const ext = fileName.split('.').pop() || '';
+            let defaultCode = `// Script staged for ${fileName}`;
+            if (ext === 'py') defaultCode = `# Staged Python Module\nprint("Active layout initiated.")`;
+            if (ext === 'html') defaultCode = `<!-- Web staged layout -->\n<div class="p-4 bg-slate-900 border rounded">\n  <h1 class="text-white text-base">Module: ${fileName}</h1>\n</div>`;
+
+            activeFiles.push({
+                name: fileName.trim(),
+                code: defaultCode
+            });
+            
+            if (currentSandboxRepoKey !== 'sandbox' && activeProfile.projects.find(p=>p.id === currentSandboxRepoKey)) {
+                 saveProfileData(activeProfile);
+            }
+            
+            currentSandboxFileIndex = activeFiles.length - 1;
+            window.loadSandboxWorkspace();
+            window.showToast("Dynamic file successfully initialized.", "success");
+        };
+
+        window.toggleEngineType = function(val) {
+            const badge = document.getElementById("runtime-mode-badge");
+            if (val === 'python') {
+                badge.className = "text-[8px] bg-blue-500/10 text-blue-400 border border-blue-500/35 px-2 py-0.5 rounded font-mono font-bold";
+                badge.innerText = "PYTHON DIRECTIVE";
+            } else {
+                badge.className = "text-[8px] bg-yellow-500/10 text-yellow-400 border border-yellow-500/35 px-2 py-0.5 rounded font-mono font-bold";
+                badge.innerText = "WEB PIPELINE";
+            }
+        };
+
+        window.clearConsoleOutput = function() {
+            document.getElementById("sandbox-output").innerHTML = `<span class="text-purple-400">&gt; Diagnostics logs cleared. Ready for execution...</span>`;
+        };
+
+        window.runSandboxCode = function() {
+            const code = document.getElementById("sandbox-textarea").value;
+            const output = document.getElementById("sandbox-output");
+            const previewPane = document.getElementById("compiler-render-pane");
+            const engineType = document.getElementById("sandbox-engine-type").value;
+            
+            if (!code.trim()) { 
+                output.innerHTML = `<span class="text-red-400">&gt; Execution blocked. Textarea editor is empty.</span>`; return; 
+            }
+
+            const activeFiles = window.getActiveSandboxFiles();
+            if (activeFiles[currentSandboxFileIndex]) {
+                activeFiles[currentSandboxFileIndex].code = code;
+                if (currentSandboxRepoKey !== 'sandbox' && activeProfile.projects.find(p=>p.id === currentSandboxRepoKey)) {
+                    saveProfileData(activeProfile);
+                }
+            }
+
+            output.innerHTML = "";
+            let logStream = [];
+            const printLog = (msg, type = "info") => {
+                const color = type === "error" ? "text-red-400" : (type === "success" ? "text-emerald-400" : "text-yellow-400");
+                logStream.push(`<div class="${color}">&gt; ${msg}</div>`);
+            };
+
+            printLog("Connecting compiler interfaces...", "info");
+            printLog("Scanning static references and variables...", "info");
+
+            setTimeout(() => {
+                try {
+                    if (engineType === 'web') {
+                        printLog("Evaluating DOM layout nodes. Rendering viewport frame...", "info");
+                        const blob = new Blob([code], { type: 'text/html' });
+                        const iframeUrl = URL.createObjectURL(blob);
+                        
+                        previewPane.innerHTML = `
+                            <iframe src="${iframeUrl}" class="w-full h-full border-none bg-white rounded-lg shadow-inner min-h-[220px] overflow-y-auto"></iframe>
+                        `;
+                        printLog("Live compilation preview mounted.", "success");
+                    } else {
+                        printLog("Connecting local emulated Python thread variables...", "info");
+                        let outputLogs = [];
+
+                        const simulatedPythonEval = (pyCode) => {
+                            const lines = pyCode.split('\n');
+                            let variables = {};
+                            let outputLogs = [];
+                            let inLoop = false;
+                            let loopItems = [];
+                            let loopVar = '';
+                            let loopIndentBlock = [];
+
+                            lines.forEach(line => {
+                                const trimLine = line.trim();
+                                if (!trimLine || trimLine.startsWith('#')) return;
+
+                                if (!inLoop && trimLine.includes('=') && !trimLine.startsWith('if') && !trimLine.startsWith('for')) {
+                                    const parts = trimLine.split('=');
+                                    const varName = parts[0].trim();
+                                    let varVal = parts[1].trim();
+                                    
+                                    if (varVal.startsWith('"') && varVal.endsWith('"')) {
+                                        variables[varName] = varVal.slice(1, -1);
+                                    } else if (varVal.startsWith("'") && varVal.endsWith("'")) {
+                                        variables[varName] = varVal.slice(1, -1);
+                                    } else if (varVal.startsWith('[') && varVal.endsWith(']')) {
+                                        try {
+                                            const itemsStr = varVal.slice(1, -1);
+                                            variables[varName] = itemsStr.split(',').map(i => i.trim().replace(/['"]/g, ""));
+                                        } catch(e) { variables[varName] = []; }
+                                    } else {
+                                        variables[varName] = Number(varVal) || varVal;
+                                    }
+                                    return;
+                                }
+
+                                if (trimLine.startsWith('for ') && trimLine.endsWith(':')) {
+                                    const loopMatch = trimLine.match(/for\s+(\w+)\s+in\s+(.+):/);
+                                    if (loopMatch) {
+                                        inLoop = true;
+                                        loopVar = loopMatch[1];
+                                        const iterableName = loopMatch[2].trim();
+                                        
+                                        if (iterableName.startsWith('range(')) {
+                                            const rangeVal = iterableName.match(/range\((\d+)\)/);
+                                            if (rangeVal) {
+                                                const max = parseInt(rangeVal[1]);
+                                                loopItems = Array.from({length: max}, (_, i) => i);
+                                            }
+                                        } else {
+                                            loopItems = variables[iterableName] || [];
+                                        }
+                                        return;
+                                    }
+                                }
+
+                                if (inLoop && (line.startsWith('    ') || line.startsWith('\t'))) {
+                                    loopIndentBlock.push(trimLine);
+                                    return;
+                                }
+
+                                if (inLoop && !line.startsWith('    ') && !line.startsWith('\t')) {
+                                    executeLoopBlock(loopVar, loopItems, loopIndentBlock, variables, outputLogs);
+                                    inLoop = false;
+                                    loopIndentBlock = [];
+                                }
+
+                                if (!inLoop && trimLine.startsWith('print(') && trimLine.endsWith(')')) {
+                                    const printContent = trimLine.slice(6, -1).trim();
+                                    evaluatePrintStatement(printContent, variables, outputLogs);
+                                }
+                            });
+
+                            if (inLoop && loopIndentBlock.length > 0) {
+                                executeLoopBlock(loopVar, loopItems, loopIndentBlock, variables, outputLogs);
+                            }
+
+                            return outputLogs.length > 0 ? outputLogs : ["Process output sequence terminated: Success."];
+                        };
+
+                        const executeLoopBlock = (lVar, lItems, indentLines, vars, logs) => {
+                            lItems.forEach(item => {
+                                vars[lVar] = item;
+                                indentLines.forEach(indentLine => {
+                                    if (indentLine.startsWith('print(') && indentLine.endsWith(')')) {
+                                        const printContent = indentLine.slice(6, -1).trim();
+                                        evaluatePrintStatement(printContent, vars, logs);
+                                    }
+                                });
+                            });
+                        };
+
+                        const evaluatePrintStatement = (content, vars, logs) => {
+                            if (content.startsWith('f"') || content.startsWith("f'")) {
+                                let fstr = content.slice(2, -1);
+                                const matches = fstr.match(/\{([^}]+)\}/g);
+                                if (matches) {
+                                    matches.forEach(m => {
+                                        const key = m.slice(1, -1).trim();
+                                        fstr = fstr.replace(m, vars[key] !== undefined ? vars[key] : '');
+                                    });
+                                }
+                                logs.push(fstr);
+                            } else if (content.startsWith('"') && content.endsWith('"')) {
+                                logs.push(content.slice(1, -1));
+                            } else if (content.startsWith("'") && content.endsWith("'")) {
+                                logs.push(content.slice(1, -1));
+                            } else {
+                                if (content.includes('+')) {
+                                    const parts = content.split('+').map(p => p.trim());
+                                    let combined = '';
+                                    parts.forEach(p => {
+                                        if ((p.startsWith('"') && p.endsWith('"')) || (p.startsWith("'") && p.endsWith("'"))) {
+                                            combined += p.slice(1, -1);
+                                        } else {
+                                            combined += vars[p] !== undefined ? vars[p] : p;
+                                        }
+                                    });
+                                    logs.push(combined);
+                                } else {
+                                    logs.push(vars[content] !== undefined ? vars[content] : content);
+                                }
+                            }
+                        };
+
+                        const pyOutputs = simulatedPythonEval(code);
+                        pyOutputs.forEach(logLine => {
+                            printLog(logLine, "success");
+                        });
+
+                        previewPane.innerHTML = `
+                            <div class="w-full h-full bg-slate-950 p-4 flex flex-col justify-between rounded-lg border border-purple-800/30">
+                                <div class="flex justify-between items-center border-b border-purple-900 pb-2 flex-shrink-0">
+                                    <span class="text-[10px] font-orbitron font-bold text-yellow-400">PYTHON EVALUATION ENGINE</span>
+                                    <span class="text-[8px] bg-blue-500/10 text-blue-400 border border-blue-500/35 px-1.5 py-0.5 rounded font-mono font-bold animate-pulse">VM STREAMING</span>
+                                </div>
+                                <div class="flex-grow flex flex-col items-center justify-center p-4">
+                                    <i class="fa-brands fa-python text-4xl text-blue-400 mb-2 animate-bounce"></i>
+                                    <p class="text-[11px] text-white font-bold font-mono">CORE INTERPRETATION SUCCESS</p>
+                                    <p class="text-[9px] text-purple-300 font-mono mt-1 text-center">Process finalized core thread with exit code: 0.</p>
+                                </div>
+                                <div class="text-[8px] font-mono text-purple-400 border-t border-purple-900/40 pt-2 flex justify-between flex-shrink-0">
+                                    <span>Heap Memory: 2.1 KB</span>
+                                    <span>Status: VERIFIED</span>
+                                </div>
+                            </div>
+                        `;
+                        printLog("Python staging thread completed successfully.", "success");
+                    }
+
+                    output.innerHTML = logStream.join("");
+                    window.showToast("Code execution diagnostics finalized.", "success");
+
+                } catch (err) {
+                    printLog(`Compilation Error: ${err.message}`, "error");
+                    output.innerHTML = logStream.join("");
+                    
+                    previewPane.innerHTML = `
+                        <div class="w-full h-full bg-red-950/20 p-6 rounded-lg flex flex-col items-center justify-center text-center border border-red-500/40">
+                            <i class="fa-solid fa-triangle-exclamation text-3xl text-red-500 mb-2"></i>
+                            <h5 class="font-orbitron text-xs text-red-400 font-bold">SYNTAX INTERRUPTED</h5>
+                            <p class="text-[10px] text-slate-300 font-mono mt-2">${err.message}</p>
+                        </div>
+                    `;
+                    window.showToast("Pipeline diagnostic error.", "error");
+                }
+            }, 500);
+        };
+
+        window.loadPythonPreset = function(type) {
+            const editor = document.getElementById("sandbox-textarea");
+            const engineSelect = document.getElementById("sandbox-engine-type");
+            
+            engineSelect.value = "python";
+            window.toggleEngineType("python");
+
+            if (type === 'vars') {
+                editor.value = `# Python Variables Pathway\n\nusername = "Operative_Neo"\nxp_points = 240\n\nprint("Designation: " + username)\nprint(f"Assigning spatial boost: {xp_points} XP")`;
+                window.showToast("Python variables directive loaded.", "success");
+            } else if (type === 'loops') {
+                editor.value = `# Python Loop Control Pathway\n\nstages = ["system_01", "system_02", "system_03"]\nfor stage_node in stages:\n    print("Accessing node: " + stage_node)\n    print("Telemetry: ONLINE")`;
+                window.showToast("Python loops directive loaded.", "success");
+            } else if (type === 'fns') {
+                editor.value = `# Python Functions Pathway\n\ndef run_stage_calibration():\n    print("Evaluating parameters...")\n    print("Calibration aligned!")\n\nrun_stage_calibration()`;
+                window.showToast("Python functions directive loaded.", "success");
+            } else if (type === 'lists') {
+                editor.value = `# Python Lists Array Hub\n\ncapabilities = ["HTML", "Solidity", "Rust", "Python"]\nprint("Operational capabilities tagged:")\nfor cap in capabilities:\n    print("Cap: " + cap)`;
+                window.showToast("Python lists directive loaded.", "success");
+            }
+        };
+
+        let localStream = null;
+        let currentCallId = null;
+        let callDurationInterval = null;
+
+        async function initLocalVideo() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                document.getElementById('local-video').srcObject = localStream;
+            } catch (e) {
+                console.error("No camera/mic found:", e);
+                window.showToast("Camera/Mic access denied or unavailable. Fallback to virtual visualizers.", "warning");
+            }
+        }
+
+        function stopLocalVideo() {
+            if (localStream) {
+                localStream.getTracks().forEach(t => t.stop());
+                localStream = null;
+            }
+            const localVideo = document.getElementById('local-video');
+            if(localVideo) localVideo.srcObject = null;
+        }
+
+        window.toggleMic = function() {
+            if (localStream) {
+                const audioTrack = localStream.getAudioTracks()[0];
+                if (audioTrack) {
+                    audioTrack.enabled = !audioTrack.enabled;
+                    const btn = document.getElementById('btn-toggle-mic');
+                    if (audioTrack.enabled) {
+                        btn.classList.remove('bg-red-600', 'hover:bg-red-500');
+                        btn.classList.add('bg-purple-900/80', 'hover:bg-purple-700');
+                        btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                    } else {
+                        btn.classList.add('bg-red-600', 'hover:bg-red-500');
+                        btn.classList.remove('bg-purple-900/80', 'hover:bg-purple-700');
+                        btn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i>';
+                    }
+                }
+            }
+        };
+
+        window.toggleVideo = function() {
+            if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                if (videoTrack) {
+                    videoTrack.enabled = !videoTrack.enabled;
+                    const btn = document.getElementById('btn-toggle-vid');
+                    if (videoTrack.enabled) {
+                        btn.classList.remove('bg-red-600', 'hover:bg-red-500');
+                        btn.classList.add('bg-purple-900/80', 'hover:bg-purple-700');
+                        btn.innerHTML = '<i class="fa-solid fa-video"></i>';
+                    } else {
+                        btn.classList.add('bg-red-600', 'hover:bg-red-500');
+                        btn.classList.remove('bg-purple-900/80', 'hover:bg-purple-700');
+                        btn.innerHTML = '<i class="fa-solid fa-video-slash"></i>';
+                    }
+                }
+            }
+        };
+
+        window.renderFaceCommsUI = function() {
+            const list = document.getElementById('facecomms-friends-list');
+            list.innerHTML = "";
+            if (activeProfile.friends.length === 0) {
+                list.innerHTML = `<p class="text-[10px] text-blue-300 italic p-2">No online associates linked inside the network.</p>`;
+                return;
+            }
+
+            activeProfile.friends.forEach(fId => {
+                const fProf = Object.values(inMemoryDb.profiles).find(p => p.socialId === fId);
+                if (fProf) {
+                    const isBusy = Object.values(inMemoryDb.activeCalls).some(call => 
+                        (call.targetId === fId || call.callerId === fId) && (call.status === 'ringing' || call.status === 'accepted')
+                    );
+                    
+                    list.innerHTML += `
+                        <div class="flex items-center justify-between p-2 bg-black/40 border border-blue-900/30 rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full ${fProf.avatarColor} flex items-center justify-center text-xs relative">
+                                    ${fProf.avatarIcon}
+                                    <div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 ${isBusy ? 'bg-red-500' : 'bg-emerald-500'} border-2 border-[#0e071a] rounded-full"></div>
+                                </div>
+                                <span class="font-mono text-[10px] text-white">${fProf.username}</span>
+                            </div>
+                            <button onclick="window.initiateCall('${fProf.socialId}', '${fProf.username}')" ${isBusy ? 'disabled' : ''} class="px-2 py-1 ${isBusy ? 'bg-slate-700 text-slate-400' : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow'} rounded text-[9px] font-bold transition-all"><i class="fa-solid fa-phone"></i></button>
+                        </div>
+                    `;
+                }
+            });
+        };
+
+        window.initiateCall = function(targetId, targetName) {
+            currentCallId = 'CALL-' + Date.now();
+            const callObj = {
+                id: currentCallId,
+                callerId: activeProfile.socialId,
+                callerName: activeProfile.username,
+                targetId: targetId,
+                targetName: targetName,
+                status: 'ringing',
+                startTime: Date.now()
+            };
+            
+            inMemoryDb.activeCalls[currentCallId] = callObj;
+            saveCallData(callObj);
+
+            document.getElementById('facecomms-idle-state').classList.add('hidden');
+            document.getElementById('facecomms-active-state').classList.remove('hidden');
+            document.getElementById('remote-user-label').innerText = targetName;
+            document.getElementById('remote-video-placeholder').innerHTML = `
+                <i class="fa-solid fa-phone-volume text-4xl text-blue-400 animate-bounce mb-2"></i>
+                <p class="text-[10px] text-blue-300 font-mono">Dialing frequency for ${targetName}...</p>
+            `;
+            
+            initLocalVideo();
+            window.renderFaceCommsUI();
+        };
+
+        window.checkIncomingCalls = function() {
+            if (!activeProfile) return;
+            
+            const incomingCall = Object.values(inMemoryDb.activeCalls).find(c => c.targetId === activeProfile.socialId && c.status === 'ringing');
+            const modal = document.getElementById('incoming-call-modal');
+            
+            if (incomingCall) {
+                currentCallId = incomingCall.id;
+                document.getElementById('incoming-caller-name').innerText = incomingCall.callerName;
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+                
+                if (currentCallId && inMemoryDb.activeCalls[currentCallId]) {
+                    const myCall = inMemoryDb.activeCalls[currentCallId];
+                    if (myCall.status === 'accepted') {
+                        document.getElementById('remote-video-placeholder').innerHTML = `
+                            <i class="fa-solid fa-user-check text-4xl text-emerald-400 mb-2"></i>
+                            <p class="text-[10px] text-emerald-300 font-mono">Transmission Established</p>
+                        `;
+                        if (!callDurationInterval) {
+                            let sec = 0;
+                            callDurationInterval = setInterval(() => {
+                                sec++;
+                                const mins = String(Math.floor(sec / 60)).padStart(2, '0');
+                                const secs = String(sec % 60).padStart(2, '0');
+                                const timerEl = document.getElementById('facecomms-timer');
+                                if(timerEl) timerEl.innerText = `${mins}:${secs}`;
+                            }, 1000);
+                        }
+                    } else if (myCall.status === 'rejected' || myCall.status === 'ended') {
+                        const statusMsg = myCall.status === 'rejected' ? "Transmission declined." : "Transmission disconnected.";
+                        endCallCleanup();
+                        window.showToast(statusMsg, "warning");
+                    }
+                }
+            }
+        };
+
+        window.acceptIncomingCall = function() {
+            if (currentCallId && inMemoryDb.activeCalls[currentCallId]) {
+                const callObj = inMemoryDb.activeCalls[currentCallId];
+                callObj.status = 'accepted';
+                saveCallData(callObj);
+
+                document.getElementById('incoming-call-modal').classList.add('hidden');
+                window.openFeature('LIVE FACECOMMS', 'Real-time WebRTC audio/video sync.', false, 'facecomms');
+                
+                document.getElementById('facecomms-idle-state').classList.add('hidden');
+                document.getElementById('facecomms-active-state').classList.remove('hidden');
+                document.getElementById('remote-user-label').innerText = callObj.callerName;
+                
+                initLocalVideo();
+            }
+        };
+
+        window.rejectIncomingCall = function() {
+            if (currentCallId && inMemoryDb.activeCalls[currentCallId]) {
+                const callObj = inMemoryDb.activeCalls[currentCallId];
+                callObj.status = 'rejected';
+                saveCallData(callObj);
+            }
+            document.getElementById('incoming-call-modal').classList.add('hidden');
+            currentCallId = null;
+            window.renderFaceCommsUI();
+        };
+
+        window.endCall = function() {
+            if (currentCallId && inMemoryDb.activeCalls[currentCallId]) {
+                const callObj = inMemoryDb.activeCalls[currentCallId];
+                callObj.status = 'ended';
+                saveCallData(callObj);
+            }
+            endCallCleanup();
+        };
+
+        function endCallCleanup() {
+            stopLocalVideo();
+            clearInterval(callDurationInterval);
+            callDurationInterval = null;
+            document.getElementById('facecomms-timer').innerText = "00:00";
+            document.getElementById('facecomms-idle-state').classList.remove('hidden');
+            document.getElementById('facecomms-active-state').classList.add('hidden');
+            currentCallId = null;
+            window.renderFaceCommsUI();
+        }
+
+        window.renderAdminDashboard = function() {
+            const usersList = document.getElementById("admin-users-list");
+            const projectsList = document.getElementById("admin-projects-list");
+            const callsList = document.getElementById("admin-calls-list");
+
+            usersList.innerHTML = "";
+            Object.values(inMemoryDb.profiles).forEach(p => {
+                usersList.innerHTML += `
+                    <div class="flex items-center justify-between p-2 border-b border-red-900/30 text-[10px] font-mono hover:bg-red-950/20">
+                        <div class="flex gap-2 items-center"><span class="text-white">${p.username}</span> <span class="text-red-400 bg-red-900/20 px-1 rounded">(${p.socialId})</span></div>
+                        <span class="text-slate-400 bg-black/50 px-2 border border-red-900/50">Passkey: ${p.password}</span>
+                    </div>
+                `;
+            });
+
+            projectsList.innerHTML = "";
+            let allProjs = [];
+            Object.values(inMemoryDb.profiles).forEach(p => {
+                if(p.projects) allProjs = allProjs.concat(p.projects);
+            });
+            
+            if (allProjs.length === 0) projectsList.innerHTML = "<div class='text-[10px] text-red-500/60 p-2'>No active projects on server memory blocks.</div>";
+            allProjs.forEach(proj => {
+                projectsList.innerHTML += `
+                    <div class="flex items-center justify-between p-2 border-b border-red-900/30 text-[10px] font-mono hover:bg-red-950/20 cursor-pointer" onclick="window.openProjectRepo('${proj.id}')">
+                        <span class="text-white">${proj.name}</span>
+                        <span class="bg-black/50 px-2 border border-red-900/50 ${proj.visibility === 'Public' ? 'text-emerald-400' : 'text-red-500 font-bold'}">${proj.visibility} | Authored: ${proj.ownerName}</span>
+                    </div>
+                `;
+            });
+
+            callsList.innerHTML = "";
+            const activeCallsArr = Object.values(inMemoryDb.activeCalls);
+            if (activeCallsArr.length === 0) callsList.innerHTML = "<div class='text-[10px] text-red-500/60 p-2'>No transmission intercepts tracked yet.</div>";
+            activeCallsArr.slice().reverse().forEach(call => {
+                const date = new Date(call.startTime).toLocaleTimeString();
+                callsList.innerHTML += `
+                    <div class="p-2 border-b border-red-900/30 text-[10px] font-mono hover:bg-red-950/20">
+                        <div class="text-red-300/80 mb-1">Time: [${date}] | Session: ${call.id}</div>
+                        <div class="text-white">INITIATOR: <span class="text-yellow-400">${call.callerName}</span> -> TARGET: <span class="text-blue-400">${call.targetName}</span></div>
+                        <div class="text-slate-400 mt-1 italic font-bold">Trace Status: ${call.status}</div>
+                    </div>
+                `;
+            });
+        };
+
+        window.onload = function() {
+            window.renderAvatars();
+            initTagSystem('reg-lang-input', 'reg-tags-wrapper', 'reg-lang-dropdown', () => regLanguagesState, (arr) => regLanguagesState = arr);
+            initTagSystem('upd-lang-input', 'upd-tags-wrapper', 'upd-lang-dropdown', () => updLanguagesState, (arr) => updLanguagesState = arr);
+            
+            // Connect Network
+            NetworkManager.init();
+        };
+    </script>
+</body>
+</html>
